@@ -1,0 +1,41 @@
+{% extends 'base.html.twig' %}
+{# {% block title %}Welcome!{% endblock %}
+Alors qu'est ce que ça fait ?
+
+Ici est déclaré un bloc avec le nom title, celui ci va pouvoir être utilisé par les enfants pour venir override la valeur Welcome! à l'intérieur. Dans le cas où personne n'utilise ce bloc, la valeur définie est choisie par défaut.
+
+OK très bien, mais comment on l'utilise dans un template enfant ?
+
+Très simplement de la même manière !
+
+{% extends 'base.html.twig' %}
+
+{% block title} title from child ! {% endblock %} #}
+{% block title %}Homepage !{% endblock %}
+
+{% block body %}
+    <h1>{{ title }}</h1>
+    {% for message in app.flashes('notice') %}
+        <div class="flash-notice">
+            {{ message }}
+        </div>
+    {% endfor %}
+    <form method="post" action="connection">
+        <ul class="form">
+            <p>
+                <input type="text" name="email" id="email" class="field-divided" placeholder="email" size="30" maxlength="40" />
+                <input type="password" name="password" id="password" class="field-divided" placeholder="Mot de passe" size="30"/>
+                <input type="submit" value="Se Connecter" />
+            </p>
+        </ul>
+    </form>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }} {# on insère les scripts défini dans le template base.html.twig (le parent de notre template cf extends en haut)
+
+    //ci dessous on défini notre nouveau script
+    //on oublie pas d'utiliser assets si c'est un script local#}
+
+    <script src="{{asset('javascript/bousin3000.js')}}"> </script>
+{% endblock%}
