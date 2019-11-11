@@ -5,6 +5,12 @@
 {% block body %}
     <h1>{{ title }}</h1>
     <a href="/user/updateHandler"><h4>Update</h4></a>
+    <h2>{{ advert.getAdvertTitle() }}</h2>
+    <h3>{{ advert.getAdvertPrice() }}</h3>
+    <p>{{ advert.getAdvertDescription() }}</p>
+    <h4>{{ advert.getAdvertDate()|date }}</h4>
+    <h5>{{ advert.getAdvertCategory() }}</h5>
+
 
     {% for message in app.flashes('notice') %}
         <div class="flash-notice">

@@ -3,6 +3,7 @@
 
 namespace App\Controller;
 
+use App\Entity\User;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -12,7 +13,7 @@ use Twig\Environment;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 
-class AdvertController
+class AdvertController extends AbstractController
 {
 
     /**
@@ -20,15 +21,39 @@ class AdvertController
      */
     public function advertForm(Request $request, EntityManagerInterface $em) {
 
+        $user = $em->getRepository(User::class)->find($_SESSION['id']);
+
         $form = $this->createForm(AdvertType::class);
 
         $form->handleRequest($request); // On récupère le formulaire envoyé dans la requête
         if ($form->isSubmitted() && $form->isValid()) { // on véfifie si le formulaire est envoyé et si il est valide
             $article = $form->getData(); // On récupère l'article associé
+            $article->setAdvertDate();
+            $article->setAdvertUserId($user);
+
             $em->persist($article); // on le persiste
             $em->flush(); // on save
+            return $this->redirectToRoute('advert/$article.getId()'); // Hop redirigé et on sort du controller
+
         }
         return $this->render('advert_form.html.twig', ['form' => $form->createView()]); // on envoie ensuite le formulaire au template
 
+    }
+
+    /**
+     * @Route("/advert/{id}", name="advert")
+     */
+    public function showAdvert(EntityManagerInterface $em, $id) {
+        $repository = $em->getRepository(Advert::class);
+        $advert = $repository->find($id);
+
+        if(!$advert) {
+            throw $this->createNotFoundException('Sorry, no advert');
+        }
+
+        return $this->render('advert.html.twig', [
+            'title' => 'Advert',
+            'advert' => $advert
+        ]);
     }
 }

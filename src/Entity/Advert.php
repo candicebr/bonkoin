@@ -58,10 +58,10 @@ class Advert
     private $advert_region;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\user", inversedBy="adverts")
+     * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="adverts")
      * @ORM\JoinColumn(nullable=false)
      */
-    private $advert_user_id;
+    private $advert_user;
 
     public function getId(): ?int
     {
@@ -167,12 +167,12 @@ class Advert
 
     public function getAdvertUserId(): ?user
     {
-        return $this->advert_user_id;
+        return $this->advert_user;
     }
 
-    public function setAdvertUserId(?user $advert_user_id): self
+    public function setAdvertUserId(?user $advert_user): self
     {
-        $this->advert_user_id = $advert_user_id;
+        $this->advert_user = $advert_user;
 
         return $this;
     }
