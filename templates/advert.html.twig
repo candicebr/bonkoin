@@ -1,0 +1,15 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Homepage !{% endblock %}
+
+{% block body %}
+    <h1>{{ title }}</h1>
+    <a href="/user/updateHandler"><h4>Update</h4></a>
+
+    {% for message in app.flashes('notice') %}
+        <div class="flash-notice">
+            {{ message }}
+        </div>
+    {% endfor %}
+
+{% endblock %}
