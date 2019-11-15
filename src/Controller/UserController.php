@@ -8,6 +8,7 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use App\Entity\User;
 use App\Form\UserType;
+use App\Form\UserUpdateType;
 use Twig\Environment;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
@@ -106,22 +107,65 @@ class UserController extends AbstractController
         ]);
     }
 
-    /**
+     /**
      * @Route("/user/updateHandler", name="updateHandler")
      */
-    public function updateHandler()
+   /* public function updateHandler()
     {
         return $this->render('update_profil.html.twig', [
             'title' => 'Update'
         ]);
-    }
+    }*/
 
     /**
      * @Route("/user/update", name="update")
      */
     public function update(Request $request, EntityManagerInterface $em)
     {
-        //utilisateur de la session
+        $user = $em->getRepository(User::class)->find($_SESSION['id']);
+
+        $form = $this->createForm(UserUpdateType::class);
+
+        $form->handleRequest($request); // On récupère le formulaire envoyé dans la requête
+        if ($form->isSubmitted() && $form->isValid()) { // on véfifie si le formulaire est envoyé et si il est valide
+            $article = $form->getData();
+            //dd($form->getData()); // Si c'est bon on dump les informations dans le formulaire (dd c'est essentiellement dump & die)
+
+            if ($article->getPseudo() != null) //Si on modifie son pseudo
+            {
+                if ($em->getRepository(User::class)->findOneByPseudo($article->getPseudo()) == null) // condition le pseudo n'existe pas déjà
+                {
+                    $user->setPseudo($article->getPseudo());
+                    $this->addFlash('notice', 'pseudo modifié');
+                }
+                else
+                {
+                    $this->addFlash('notice', 'pseudo déjà utilisé');
+                    return $this->render('update_profil.html.twig', [
+                        'title' => 'Update'
+                    ]);
+                }
+            }
+            if ($article->getPassword() != null)
+            {
+                $user->setPassword($request->getPassword());
+                $this->addFlash('notice', 'mot de passe modifié');
+
+            }
+
+            //Mise à jour de la session de l'utilisateur
+            $_SESSION['pseudo'] = $user->getPseudo();
+            $_SESSION['password'] = $user->getPassword();
+
+            $em->flush(); // on save
+            return $this->render('profil.html.twig' , [
+                'title' => 'Profil'
+            ]);
+        }
+        return $this->render('update_profil.html.twig', ['form' => $form->createView()]);
+
+
+        /*//utilisateur de la session
         $user = $em->getRepository(User::class)->find($_SESSION['id']);
 
         if ($_POST['pseudo'] != null) //Si on modifie son pseudo
@@ -154,6 +198,7 @@ class UserController extends AbstractController
 
         return $this->render('profil.html.twig' , [
             'title' => 'Profil'
-        ]);
-    }
+        ]);*/
+
+       }
 }

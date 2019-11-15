@@ -3,8 +3,11 @@
 {% block title %}Homepage !{% endblock %}
 
 {% block body %}
-    <h1>Yay a form !</h1>
+    <h1>Inscription</h1>
     {{ form_start(form) }}
+    {{ form_widget(form.pseudo, {'attr': {'placeholder': 'pseudo'}}) }}
+    {{ form_widget(form.email, {'attr': {'placeholder': 'email'}}) }}
+    {{ form_widget(form.password, {'attr': {'placeholder': 'password'}}) }}
     {{ form_widget(form) }}
 
     {% for message in app.flashes('notice') %}
