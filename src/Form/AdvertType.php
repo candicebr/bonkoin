@@ -13,27 +13,71 @@ class AdvertType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('advert_category', ChoiceType::class, [
+            ->add('Categorie', ChoiceType::class, [
                 'choices' => [
-                    'véhicules' => 'véhicules',
-                    'immobilier' => 'immobilier',
-                    'vacances' => 'vacances',
-                    'loisirs' => 'loisirs',
-                    'mode' => 'mode',
-                    'multimédia' => 'multimédia',
-                    'emploi' => 'emploi',
-                    'maison' => 'maison',
-                    'matériel professionnel' => 'matériel professionnel',
-                    'services' => 'services',
-                    'divers' => 'divers',
+                    'Choisissez une catégorie' => '"Choisissez une catégorie"',
+                    'Emploi' => [
+                        "Offres d'emplois" => "Offres d'emplois",
+                        'Formations professionnelles' => 'Formations professionnelles',
+                    ],
+                    'Véhicules' => [
+                        'Voitures' => 'Voitures',
+                        'Motos' => 'Motos',
+                        'Caravaning' => 'Caravaning',
+                    ],
+                    'Immobilier' => [
+                        'Ventes immobilières' => 'Ventes',
+                        'Locations' => 'Locations',
+                    ],
+                    'Vacances' => [
+                        'Locations & Gîtes' => 'Locations & Gîtes',
+                        "Chambres d'hôtes" => "Chambre d'hôte",
+                        'Campings' => 'Campings',
+                        'Hôtels' => 'Hôtels',
+                    ],
+                    'Multimédia' => [
+                        'Informatique' => 'Informatique',
+                        'Consoles et Jeux vidéo' => 'Consoles et Jeux vidéo',
+                        'Image & Son' => 'Image & Son',
+                        'Téléphonie' => 'Téléphonie',
+                    ],
+                    'maison' => [
+                        'Ameublement' => 'Ameublement',
+                        'Electroménager' => 'Electroménager',
+                        'Arts de la table' => 'Arts de la table',
+                        'Décoration' => 'Décoration',
+                        'Linge de maison' => 'Linge de maison',
+                        'Bricolage' => 'Bricolage',
+                        'Jardinage' => 'Jardinage',
+                    ],
+                    'Mode' => [
+                        'Vêtements' => 'Vêtements',
+                        'Chaussures' => 'Chaussures',
+                        'Accessoires & Bagagerie' => 'Accessoires & Bagagerie',
+                        'Montres & Bijoux' => 'Montres & Bijoux',
+                        'Bébé' => 'Bébé',
+                    ],
+                    'Loisirs' => [
+                        'DVD / Films' => 'DVD / Films',
+                        'CD / Musique' => 'CD / Musique',
+                        'Livres' => 'Livres',
+                        'Animaux' => 'Animaux',
+                        'Vélos' => 'Vélos',
+                        'Sports & Hobbies' => 'Sports & Hobbies',
+                        'Instruments de musique' => 'Instruments de musique',
+                        'Jeux & Jouets' => 'Jeux & Jouets',
+                    ],
+                    'Divers' => [
+                        'Autres' => 'Autres'
+                    ],
                 ],
             ])
-            ->add('advert_title')
-            ->add('advert_description')
-            ->add('advert_price')
-            ->add('advert_photo')
-            ->add('advert_region')
-            ->add('advert_localisation')
+            ->add('Titre')
+            ->add('Description')
+            ->add('Prix')
+            ->add('Photos')
+            ->add('Region')
+            ->add('Localisation')
 
         ;
     }

@@ -11,6 +11,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use App\Entity\User;
 use App\Form\UserType;
 use App\Form\UserUpdateType;
+use App\Form\UserConnectType;
 use Twig\Environment;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
@@ -44,19 +45,20 @@ class UserController extends AbstractController
 
             if ($em->getRepository(User::class)->findOneByPseudo($user->getPseudo()) == null) // condition le pseudo n'existe pas déjà
             {
-                $passwordEncoded = $encoder->encodePassword($user, $user->getPassword());
-                $user->setPassword($passwordEncoded);
+                //$passwordEncoded = $encoder->encodePassword($user, $user->getPassword());
+                //$user->setPassword($passwordEncoded);
 
                 $em->persist($user); // on le persiste
                 $em->flush(); // on save
 
                 //initialisation de la session de l'utilisateur connecté
-                $_SESSION['id'] = $user->getId();
+                $_SESSION['user'] = $user;
+                /*$_SESSION['id'] = $user->getId();
                 $_SESSION['pseudo'] = $user->getPseudo();
                 $_SESSION['email'] = $user->getEmail();
-                $_SESSION['dateInscription'] = $user->getDateInscription();
+                $_SESSION['dateInscription'] = $user->getDateInscription();*/
 
-                return $this->redirectToRoute('homepage'); // Hop redirigé et on sort du controller
+                return $this->redirectToRoute('connection'); // Hop redirigé et on sort du controller
             }
             $this->addFlash('notice', 'pseudo déjà utilisé');
             return $this->render('inscription.html.twig', ['form' => $form->createView()]);
@@ -74,17 +76,20 @@ class UserController extends AbstractController
         $form->handleRequest($request);
         if($form->isSubmitted() && $form->isValid())
         {
-            $user_info = $form->getData(); // On récupère l'article associé
-            $user=$em->getRepository(User::class)->findOneByEmail($user_info->getEmail());
+            $user_info = $form->getData();
+            $user = $em->getRepository(User::class)->findOneByEmail($user_info->getEmail());
+
             if($user)
             {
-                if ($encoder->isPasswordValid($user, $user_info->getPassword()))
+                //if ($encoder->isPasswordValid($user, $user_info->getPassword()))
+                if (password_verify($form->get('password')->getData(), $user->getPassword()))
                 {
                     //initialisation de la session de l'utilisateur connecté
-                    $_SESSION['id'] = $user->getId();
+                    $_SESSION['user'] = $user;
+                    /*$_SESSION['id'] = $user->getId();
                     $_SESSION['pseudo'] = $user->getPseudo();
                     $_SESSION['email'] = $user->getEmail();
-                    $_SESSION['dateInscription'] = $user->getDateInscription();
+                    $_SESSION['dateInscription'] = $user->getDateInscription();*/
 
                     return $this->render('profil.html.twig' , [
                         'title' => 'Profil'
@@ -100,40 +105,8 @@ class UserController extends AbstractController
                 $this->addFlash('notice', "cet utilisateur n'existe pas");
                 return $this->render('index.html.twig', ['title' => 'Connection', 'form' => $form->createView()]);
             }
-
         }
         return $this->render('index.html.twig', ['title' => 'Connection', 'form' => $form->createView()]);
-
-        /*
-        if(isset($_POST['email']) && $user != null)
-        {
-            if($encoder->isPasswordValid($user, $form->get('password')->getData()))
-            {
-                //initialisation de la session de l'utilisateur connecté
-                $_SESSION['id'] = $user->getId();
-                $_SESSION['pseudo'] = $user->getPseudo();
-                $_SESSION['email'] = $user->getEmail();
-                $_SESSION['dateInscription'] = $user->getDateInscription();
-
-                return $this->render('profil.html.twig' , [
-                    'title' => 'Profil'
-                ]);
-            }
-            else
-            {
-                $this->addFlash('notice', 'mauvais mot de passe');
-                return $this->render('index.html.twig', [
-                    'title' => 'Connection'
-                ]);            }
-        }
-        else
-        {
-            $this->addFlash('notice', "cet utilisateur n'existe pas");
-            return $this->render('index.html.twig', [
-                'title' => 'Connection'
-            ]);
-        }*/
-
     }
 
     /**
@@ -142,9 +115,8 @@ class UserController extends AbstractController
     public function deconnexion()
     {
         session_destroy();
-        return $this->render('index.html.twig', [
-            'title' => 'Connection'
-        ]);
+        return $this->redirectToRoute('connection'); // Hop redirigé et on sort du controller
+
     }
 
     /**
@@ -152,7 +124,7 @@ class UserController extends AbstractController
      */
     public function update(Request $request, EntityManagerInterface $em)
     {
-        $user = $em->getRepository(User::class)->find($_SESSION['id']);
+        $user = $em->getRepository(User::class)->find($_SESSION['user']->getId());
 
         $form = $this->createForm(UserUpdateType::class);
 
@@ -175,13 +147,12 @@ class UserController extends AbstractController
             }
             if ($user_info->getPassword() != null)
             {
-                $user->setPassword($user_info->getPassword());
+                $user->setPassword($form->get('password')->getData());
                 $this->addFlash('notice', 'mot de passe modifié');
             }
 
             //Mise à jour de la session de l'utilisateur
-            $_SESSION['pseudo'] = $user->getPseudo();
-            $_SESSION['password'] = $user->getPassword();
+            $_SESSION['user'] = $user;
 
             $em->flush(); // on save
             return $this->render('profil.html.twig' , [

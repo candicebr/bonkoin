@@ -26,12 +26,13 @@ class AdvertController extends AbstractController
         $form = $this->createForm(AdvertType::class);
 
         $form->handleRequest($request); // On récupère le formulaire envoyé dans la requête
+        if ($form->get('Categorie')->getData()=='Voitures')
         if ($form->isSubmitted() && $form->isValid()) { // on véfifie si le formulaire est envoyé et si il est valide
-            $article = $form->getData(); // On récupère l'article associé
-            $article->setAdvertDate();
-            $article->setAdvertUserId($user);
+            $advert = $form->getData();
+            $advert->setAdvertDate();
+            $advert->setAdvertUserId($user);
 
-            $em->persist($article); // on le persiste
+            $em->persist($advert); // on le persiste
             $em->flush(); // on save
             return $this->redirectToRoute('advert/$article.getId()'); // Hop redirigé et on sort du controller
 
