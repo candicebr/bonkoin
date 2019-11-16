@@ -3,6 +3,8 @@
 
 namespace App\Controller;
 
+use Symfony\Component\Form\Extension\Core\Type\EmailType;
+use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -12,6 +14,7 @@ use App\Form\UserUpdateType;
 use Twig\Environment;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 
 
@@ -30,25 +33,28 @@ class UserController extends AbstractController
     /**
      * @Route("/user/create", name="inscription")
      */
-    public function inscription(Request $request, EntityManagerInterface $em){
+    public function inscription(Request $request, EntityManagerInterface $em, UserPasswordEncoderInterface $encoder){
 
         $form = $this->createForm(UserType::class); // On fait passer la classe de formulaire au create form afin qu'il la génère
 
         $form->handleRequest($request); // On récupère le formulaire envoyé dans la requête
         if ($form->isSubmitted() && $form->isValid()) { // on véfifie si le formulaire est envoyé et si il est valide
-            $article = $form->getData(); // On récupère l'article associé
-            $article->setDateInscription();
+            $user = $form->getData(); // On récupère l'article associé
+            $user->setDateInscription();
 
-            if ($em->getRepository(User::class)->findOneByPseudo($article->getPseudo()) == null) // condition le pseudo n'existe pas déjà
+            if ($em->getRepository(User::class)->findOneByPseudo($user->getPseudo()) == null) // condition le pseudo n'existe pas déjà
             {
-                $em->persist($article); // on le persiste
+                $passwordEncoded = $encoder->encodePassword($user, $user->getPassword());
+                $user->setPassword($passwordEncoded);
+
+                $em->persist($user); // on le persiste
                 $em->flush(); // on save
 
                 //initialisation de la session de l'utilisateur connecté
-                $_SESSION['id'] = $article->getId();
-                $_SESSION['pseudo'] = $article->getPseudo();
-                $_SESSION['email'] = $article->getEmail();
-                $_SESSION['dateInscription'] = $article->getDateInscription();
+                $_SESSION['id'] = $user->getId();
+                $_SESSION['pseudo'] = $user->getPseudo();
+                $_SESSION['email'] = $user->getEmail();
+                $_SESSION['dateInscription'] = $user->getDateInscription();
 
                 return $this->redirectToRoute('homepage'); // Hop redirigé et on sort du controller
             }
@@ -61,13 +67,47 @@ class UserController extends AbstractController
     /**
      * @Route("/connection", name="connection")
      */
-    public function connexion(Request $request, EntityManagerInterface $em)
+    public function connexion(Request $request, EntityManagerInterface $em, UserPasswordEncoderInterface $encoder)
     {
-        $user = $em->getRepository(User::class)->findOneByEmail($request->get('email'));
+        $form = $this->createForm(UserConnectType::class); // On fait passer la classe de formulaire au create form afin qu'il la génère
 
+        $form->handleRequest($request);
+        if($form->isSubmitted() && $form->isValid())
+        {
+            $user_info = $form->getData(); // On récupère l'article associé
+            $user=$em->getRepository(User::class)->findOneByEmail($user_info->getEmail());
+            if($user)
+            {
+                if ($encoder->isPasswordValid($user, $user_info->getPassword()))
+                {
+                    //initialisation de la session de l'utilisateur connecté
+                    $_SESSION['id'] = $user->getId();
+                    $_SESSION['pseudo'] = $user->getPseudo();
+                    $_SESSION['email'] = $user->getEmail();
+                    $_SESSION['dateInscription'] = $user->getDateInscription();
+
+                    return $this->render('profil.html.twig' , [
+                        'title' => 'Profil'
+                    ]);
+                }
+                else {
+                    $this->addFlash('notice', 'mauvais mot de passe');
+                    return $this->render('index.html.twig', ['title' => 'Connection', 'form' => $form->createView()]);
+                }
+            }
+            else
+            {
+                $this->addFlash('notice', "cet utilisateur n'existe pas");
+                return $this->render('index.html.twig', ['title' => 'Connection', 'form' => $form->createView()]);
+            }
+
+        }
+        return $this->render('index.html.twig', ['title' => 'Connection', 'form' => $form->createView()]);
+
+        /*
         if(isset($_POST['email']) && $user != null)
         {
-            if(isset($_POST['password']) && password_verify($request->get('password'),$user->getPassword()))
+            if($encoder->isPasswordValid($user, $form->get('password')->getData()))
             {
                 //initialisation de la session de l'utilisateur connecté
                 $_SESSION['id'] = $user->getId();
@@ -92,7 +132,7 @@ class UserController extends AbstractController
             return $this->render('index.html.twig', [
                 'title' => 'Connection'
             ]);
-        }
+        }*/
 
     }
 
@@ -107,16 +147,6 @@ class UserController extends AbstractController
         ]);
     }
 
-     /**
-     * @Route("/user/updateHandler", name="updateHandler")
-     */
-   /* public function updateHandler()
-    {
-        return $this->render('update_profil.html.twig', [
-            'title' => 'Update'
-        ]);
-    }*/
-
     /**
      * @Route("/user/update", name="update")
      */
@@ -128,29 +158,25 @@ class UserController extends AbstractController
 
         $form->handleRequest($request); // On récupère le formulaire envoyé dans la requête
         if ($form->isSubmitted() && $form->isValid()) { // on véfifie si le formulaire est envoyé et si il est valide
-            $article = $form->getData();
-            //dd($form->getData()); // Si c'est bon on dump les informations dans le formulaire (dd c'est essentiellement dump & die)
+            $user_info = $form->getData();
 
-            if ($article->getPseudo() != null) //Si on modifie son pseudo
+            if ($user_info->getPseudo() != null) //Si on modifie son pseudo
             {
-                if ($em->getRepository(User::class)->findOneByPseudo($article->getPseudo()) == null) // condition le pseudo n'existe pas déjà
+                if ($em->getRepository(User::class)->findOneByPseudo($user_info->getPseudo()) == null) // condition le pseudo n'existe pas déjà
                 {
-                    $user->setPseudo($article->getPseudo());
+                    $user->setPseudo($user_info->getPseudo());
                     $this->addFlash('notice', 'pseudo modifié');
                 }
                 else
                 {
                     $this->addFlash('notice', 'pseudo déjà utilisé');
-                    return $this->render('update_profil.html.twig', [
-                        'title' => 'Update'
-                    ]);
+                    return $this->render('update_profil.html.twig', ['form' => $form->createView()]);
                 }
             }
-            if ($article->getPassword() != null)
+            if ($user_info->getPassword() != null)
             {
-                $user->setPassword($request->getPassword());
+                $user->setPassword($user_info->getPassword());
                 $this->addFlash('notice', 'mot de passe modifié');
-
             }
 
             //Mise à jour de la session de l'utilisateur
@@ -163,42 +189,5 @@ class UserController extends AbstractController
             ]);
         }
         return $this->render('update_profil.html.twig', ['form' => $form->createView()]);
-
-
-        /*//utilisateur de la session
-        $user = $em->getRepository(User::class)->find($_SESSION['id']);
-
-        if ($_POST['pseudo'] != null) //Si on modifie son pseudo
-        {
-            if ($em->getRepository(User::class)->findOneByPseudo($_POST['pseudo']) == null) // condition le pseudo n'existe pas déjà
-            {
-                $user->setPseudo($request->get('pseudo'));
-                $this->addFlash('notice', 'pseudo modifié');
-            }
-            else
-            {
-                $this->addFlash('notice', 'pseudo déjà utilisé');
-                return $this->render('update_profil.html.twig', [
-                    'title' => 'Update'
-                ]);
-            }
-        }
-        if ($_POST['password'] != null)
-        {
-            $user->setPassword($request->get('password'));
-            $this->addFlash('notice', 'mot de passe modifié');
-
-        }
-
-        //Mise à jour de la session de l'utilisateur
-        $_SESSION['pseudo'] = $user->getPseudo();
-        $_SESSION['password'] = $user->getPassword();
-
-        $em->flush(); // on save
-
-        return $this->render('profil.html.twig' , [
-            'title' => 'Profil'
-        ]);*/
-
-       }
+    }
 }

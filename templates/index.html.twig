@@ -15,12 +15,21 @@ Très simplement de la même manière !
 
 {% block body %}
     <h1>{{ title }}</h1>
+
+    {{ form_start(form) }}
+    {{ form_widget(form.email, {'attr': {'placeholder': 'email'}}) }}
+    {{ form_widget(form.password, {'attr': {'placeholder': 'password'}}) }}
+    {{ form_widget(form) }}
+
     {% for message in app.flashes('notice') %}
         <div class="flash-notice">
             {{ message }}
         </div>
     {% endfor %}
-    <form method="post" action="connection">
+    <button type="submit" class="btn btn-primary">Se Connecter!</button>
+
+    {{ form_end(form) }}
+    <!--<form method="post" action="connection">
         <ul class="form">
             <p>
                 <input type="text" name="email" id="email" class="field-divided" placeholder="email" size="30" maxlength="40" />
@@ -28,7 +37,7 @@ Très simplement de la même manière !
                 <input type="submit" value="Se Connecter" />
             </p>
         </ul>
-    </form>
+    </form>-->
 {% endblock %}
 
 {% block javascripts %}
