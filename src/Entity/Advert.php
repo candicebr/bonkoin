@@ -165,12 +165,12 @@ class Advert
         return $this;
     }
 
-    public function getAdvertUserId(): ?user
+    public function getAdvertUser(): ?user
     {
         return $this->advert_user;
     }
 
-    public function setAdvertUserId(?user $advert_user): self
+    public function setAdvertUser(?user $advert_user): self
     {
         $this->advert_user = $advert_user;
 

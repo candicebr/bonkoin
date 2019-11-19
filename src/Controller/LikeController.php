@@ -41,14 +41,15 @@ class LikeController extends AbstractController
 
         dump($user);
         dump($advert);
+        $em->persist($user);
+        $em->persist($advert);
         $like->setUser($user);
         $like->setAdvert($advert);
 
         //$user->addLike($like);
 
 
-        $em->persist($user);
-        $em->persist($advert);
+
         $em->persist($like);
         $em->flush();
         //}

@@ -41,7 +41,7 @@ class User
     private $pseudo;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Advert", mappedBy="advert_user_id", orphanRemoval=true)
+     * @ORM\OneToMany(targetEntity="App\Entity\Advert", mappedBy="advert_user", orphanRemoval=true)
      */
     private $adverts;
 

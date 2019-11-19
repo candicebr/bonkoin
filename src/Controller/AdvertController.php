@@ -15,6 +15,20 @@ use Symfony\Component\HttpFoundation\Request;
 
 class AdvertController extends AbstractController
 {
+    public function actu(EntityManagerInterface $em)
+    {
+        $repository = $em->getRepository(Advert::class);
+        $adverts = $repository->find();
+
+        if (!$adverts) {
+            throw $this->createNotFoundException('Sorry, no advert');
+        }
+
+        return $this->render('adverts.html.twig', [
+            'title' => 'Advert',
+            'adverts' => $adverts
+        ]);
+    }
 
     /**
      * @Route("/advert_form", name="advert_form")
@@ -35,7 +49,7 @@ class AdvertController extends AbstractController
 
                 $em->persist($advert); // on le persiste
                 $em->flush(); // on save
-                return $this->redirectToRoute('advert', ['id' => $id]); // Hop redirigé et on sort du controller
+                return $this->redirectToRoute('advert', ['id' => $advert->getId()]); // Hop redirigé et on sort du controller
 
             }
         return $this->render('advert_form.html.twig', ['form' => $form->createView()]); // on envoie ensuite le formulaire au template
