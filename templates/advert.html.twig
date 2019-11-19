@@ -4,7 +4,7 @@
 
 {% block body %}
     <h1>{{ title }}</h1>
-    <a href="/user/updateHandler"><h4>Update</h4></a>
+    <a href="/advert/update/{{ advert.getId() }}"><h4>Update</h4></a>
     <a href="/like/{{ advert.getId() }}"><h4>Like</h4></a>
     <h2>{{ advert.getAdvertTitle() }}</h2>
     <h3>{{ advert.getAdvertPrice() }}</h3>

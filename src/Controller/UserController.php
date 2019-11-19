@@ -53,10 +53,10 @@ class UserController extends AbstractController
 
                 //initialisation de la session de l'utilisateur connecté
                 $_SESSION['user'] = $user;
-                /*$_SESSION['id'] = $user->getId();
+                $_SESSION['id'] = $user->getId();
                 $_SESSION['pseudo'] = $user->getPseudo();
                 $_SESSION['email'] = $user->getEmail();
-                $_SESSION['dateInscription'] = $user->getDateInscription();*/
+                $_SESSION['dateInscription'] = $user->getDateInscription();
 
                 return $this->redirectToRoute('connection'); // Hop redirigé et on sort du controller
             }
@@ -86,10 +86,10 @@ class UserController extends AbstractController
                 {
                     //initialisation de la session de l'utilisateur connecté
                     $_SESSION['user'] = $user;
-                    /*$_SESSION['id'] = $user->getId();
+                    $_SESSION['id'] = $user->getId();
                     $_SESSION['pseudo'] = $user->getPseudo();
                     $_SESSION['email'] = $user->getEmail();
-                    $_SESSION['dateInscription'] = $user->getDateInscription();*/
+                    $_SESSION['dateInscription'] = $user->getDateInscription();
 
                     return $this->render('profil.html.twig' , [
                         'title' => 'Profil'
@@ -124,7 +124,7 @@ class UserController extends AbstractController
      */
     public function update(Request $request, EntityManagerInterface $em)
     {
-        $user = $em->getRepository(User::class)->find($_SESSION['user']->getId());
+        $user = $em->getRepository(User::class)->find($_SESSION['id']);
 
         $form = $this->createForm(UserUpdateType::class);
 
@@ -153,6 +153,7 @@ class UserController extends AbstractController
 
             //Mise à jour de la session de l'utilisateur
             $_SESSION['user'] = $user;
+            $_SESSION['pseudo'] = $user->getPseudo();
 
             $em->flush(); // on save
             return $this->render('profil.html.twig' , [

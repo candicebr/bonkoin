@@ -58,7 +58,7 @@ class Advert
     private $advert_region;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="adverts")
+     * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="adverts", cascade={"persist"})
      * @ORM\JoinColumn(nullable=false)
      */
     private $advert_user;

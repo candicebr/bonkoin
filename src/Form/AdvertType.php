@@ -13,7 +13,7 @@ class AdvertType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('Categorie', ChoiceType::class, [
+            ->add('advert_category', ChoiceType::class, [
                 'choices' => [
                     'Choisissez une catégorie' => '"Choisissez une catégorie"',
                     'Emploi' => [
@@ -72,12 +72,12 @@ class AdvertType extends AbstractType
                     ],
                 ],
             ])
-            ->add('Titre')
-            ->add('Description')
-            ->add('Prix')
-            ->add('Photos')
-            ->add('Region')
-            ->add('Localisation')
+            ->add('advert_title')
+            ->add('advert_description')
+            ->add('advert_price')
+            ->add('advert_photo')
+            ->add('advert_region')
+            ->add('advert_localisation')
 
         ;
     }

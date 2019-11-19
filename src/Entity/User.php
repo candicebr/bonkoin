@@ -46,7 +46,7 @@ class User
     private $adverts;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Like", mappedBy="user", orphanRemoval=true)
+     * @ORM\OneToMany(targetEntity="App\Entity\Like", mappedBy="user", orphanRemoval=true, cascade={"persist"})
      */
     private $likes;
 

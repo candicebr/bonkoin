@@ -6,6 +6,7 @@ namespace App\Controller;
 
 use App\Entity\Like;
 use App\Entity\Advert;
+use App\Entity\User;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -19,8 +20,14 @@ class LikeController extends AbstractController
      * @Route("/like/{id}", name="like")
      */
     public function likeAdvert(EntityManagerInterface $em, $id) {
+
+        $like = new Like();
+
         $repository = $em->getRepository(Advert::class);
         $advert = $repository->find($id);
+
+        $repository = $em->getRepository(User::class);
+        $user = $repository->find($_SESSION['id']);
 
         if(!$advert) {
             throw $this->createNotFoundException('Sorry, no advert');
@@ -31,12 +38,19 @@ class LikeController extends AbstractController
 
         //if ($liked)
         //{
-            $like = new Like();
-            $like->setUser($_SESSION['user'])
-                ->setAdvert($advert);
 
-            $em->merge($like);
-            $em->flush();
+        dump($user);
+        dump($advert);
+        $like->setUser($user);
+        $like->setAdvert($advert);
+
+        //$user->addLike($like);
+
+
+        $em->persist($user);
+        $em->persist($advert);
+        $em->persist($like);
+        $em->flush();
         //}
         //else {
          //   $em->remove($liked);

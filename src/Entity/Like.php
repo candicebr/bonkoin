@@ -17,13 +17,13 @@ class Like
     private $id;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="likes")
+     * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="likes", cascade={"persist"})
      * @ORM\JoinColumn(nullable=false)
      */
     private $user;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Advert")
+     * @ORM\ManyToOne(targetEntity="App\Entity\Advert", cascade={"persist"})
      * @ORM\JoinColumn(nullable=false)
      */
     private $advert;
