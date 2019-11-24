@@ -1,0 +1,19 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Actu{% endblock %}
+
+{% block body %}
+    <h1>{{ title }}</h1>
+    <a href="/connection"><h4>Se connecter</h4></a>
+
+    <li>
+        {% for advert in adverts %}
+             <a href="/like/{{ advert.getId() }}"><h4>Like</h4></a>
+             <h2>{{ advert.getAdvertTitle() }}</h2>
+             <h3>{{ advert.getAdvertPrice() }}</h3>
+             <h4>{{ advert.getAdvertDate()|date }}</h4>
+             <h5>{{ advert.getAdvertCategory() }}</h5>
+        {% endfor %}
+    </li>
+
+{% endblock %}

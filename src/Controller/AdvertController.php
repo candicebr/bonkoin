@@ -15,17 +15,20 @@ use Symfony\Component\HttpFoundation\Request;
 
 class AdvertController extends AbstractController
 {
+    /**
+     * @Route("/adverts", name="adverts")
+     */
     public function actu(EntityManagerInterface $em)
     {
         $repository = $em->getRepository(Advert::class);
-        $adverts = $repository->find();
+        $adverts = $repository->findAllNew();
 
         if (!$adverts) {
             throw $this->createNotFoundException('Sorry, no advert');
         }
 
-        return $this->render('adverts.html.twig', [
-            'title' => 'Advert',
+        return $this->render('adverts_actu.html.twig', [
+            'title' => 'Adverts',
             'adverts' => $adverts
         ]);
     }
@@ -45,7 +48,7 @@ class AdvertController extends AbstractController
             if ($form->isSubmitted() && $form->isValid()) { // on véfifie si le formulaire est envoyé et si il est valide
                 $advert = $form->getData();
                 $advert->setAdvertDate();
-                $advert->setAdvertUserId($user);
+                $advert->setAdvertUser($user);
 
                 $em->persist($advert); // on le persiste
                 $em->flush(); // on save

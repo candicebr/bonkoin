@@ -24,15 +24,15 @@ class UserController extends AbstractController
     /**
      * @Route("/", name="homepage")
      **/
-    public function index() {
+    ///public function index() {
 
-       /* return $this->render('index.html.twig', [
+       /* return $this->render('connection.html.twig', [
             'title' => 'hello world'
         ]);*/
 
-        return $this->redirectToRoute('connection'); // Hop redirigé et on sort du controller
+        //return $this->redirectToRoute('connection'); // Hop redirigé et on sort du controller
 
-    }
+    //}
 
     /**
      * @Route("/user/create", name="inscription")
@@ -100,16 +100,16 @@ class UserController extends AbstractController
                 }
                 else {
                     $this->addFlash('notice', 'mauvais mot de passe');
-                    return $this->render('index.html.twig', ['title' => 'Connection', 'form' => $form->createView()]);
+                    return $this->render('connection.html.twig', ['title' => 'Connection', 'form' => $form->createView()]);
                 }
             }
             else
             {
                 $this->addFlash('notice', "cet utilisateur n'existe pas");
-                return $this->render('index.html.twig', ['title' => 'Connection', 'form' => $form->createView()]);
+                return $this->render('connection.html.twig', ['title' => 'Connection', 'form' => $form->createView()]);
             }
         }
-        return $this->render('index.html.twig', ['title' => 'Connection', 'form' => $form->createView()]);
+        return $this->render('connection.html.twig', ['title' => 'Connection', 'form' => $form->createView()]);
     }
 
     /**

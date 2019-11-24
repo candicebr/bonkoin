@@ -48,8 +48,6 @@ class LikeController extends AbstractController
 
         //$user->addLike($like);
 
-
-
         $em->persist($like);
         $em->flush();
         //}
