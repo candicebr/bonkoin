@@ -47,16 +47,4 @@ class LikeRepository extends ServiceEntityRepository
         ;
     }
     */
-
-    public function findOneByIds($value1, $value2): ?Like
-    {
-        return $this->createQueryBuilder('l')
-            ->andWhere('l.advert = :val')
-            ->andWhere('l.user = :val2')
-            ->setParameter('val', $value1)
-            ->setParameter('val2', $value2)
-            ->getQuery()
-            ->execute()
-            ;
-    }
 }

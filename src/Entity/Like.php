@@ -17,42 +17,42 @@ class Like
     private $id;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="likes", cascade={"persist"})
+     * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="likes")
      * @ORM\JoinColumn(nullable=false)
      */
-    private $user;
+    private $like_user;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Advert", cascade={"persist"})
+     * @ORM\ManyToOne(targetEntity="App\Entity\Advert", inversedBy="likes")
      * @ORM\JoinColumn(nullable=false)
      */
-    private $advert;
+    private $like_advert;
 
     public function getId(): ?int
     {
         return $this->id;
     }
 
-    public function getUser(): ?User
+    public function getLikeUser(): ?User
     {
-        return $this->user;
+        return $this->like_user;
     }
 
-    public function setUser(?User $user): self
+    public function setLikeUser(?User $like_user): self
     {
-        $this->user = $user;
+        $this->like_user = $like_user;
 
         return $this;
     }
 
-    public function getAdvert(): ?Advert
+    public function getLikeAdvert(): ?Advert
     {
-        return $this->advert;
+        return $this->like_advert;
     }
 
-    public function setAdvert(?Advert $advert): self
+    public function setLikeAdvert(?Advert $like_advert): self
     {
-        $this->advert = $advert;
+        $this->like_advert = $like_advert;
 
         return $this;
     }

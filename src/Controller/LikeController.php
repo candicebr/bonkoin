@@ -4,8 +4,8 @@
 namespace App\Controller;
 
 
-use App\Entity\Like;
-use App\Entity\Advert;
+//use App\Entity\Like;
+//use App\Entity\Advert;
 use App\Entity\User;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;

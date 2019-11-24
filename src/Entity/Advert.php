@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use DateTime;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -28,7 +30,7 @@ class Advert
     private $advert_price;
 
     /**
-     * @ORM\Column(type="text")
+     * @ORM\Column(type="text", nullable=true)
      */
     private $advert_description;
 
@@ -43,7 +45,7 @@ class Advert
     private $advert_date;
 
     /**
-     * @ORM\Column(type="string", length=100)
+     * @ORM\Column(type="string", length=100, nullable=true)
      */
     private $advert_localisation;
 
@@ -58,10 +60,20 @@ class Advert
     private $advert_region;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="adverts", cascade={"persist"})
+     * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="adverts")
      * @ORM\JoinColumn(nullable=false)
      */
     private $advert_user;
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Like", mappedBy="like_advert", orphanRemoval=true)
+     */
+    private $likes;
+
+    public function __construct()
+    {
+        $this->likes = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -97,7 +109,7 @@ class Advert
         return $this->advert_description;
     }
 
-    public function setAdvertDescription(string $advert_description): self
+    public function setAdvertDescription(?string $advert_description): self
     {
         $this->advert_description = $advert_description;
 
@@ -121,12 +133,12 @@ class Advert
         return $this->advert_date;
     }
 
-    public function setAdvertDate(): self
+    public function setAdvertDate(\DateTimeInterface $advert_date): self
     {
-        $now = new DateTime(date('YmdHis'));
-        $this->advert_date = $now;
+        $now=newDateTime(date('YmdHis'));
+        $this->advert_date=$now;
 
-        return $this;
+        return$this;
     }
 
     public function getAdvertLocalisation(): ?string
@@ -134,7 +146,7 @@ class Advert
         return $this->advert_localisation;
     }
 
-    public function setAdvertLocalisation(string $advert_localisation): self
+    public function setAdvertLocalisation(?string $advert_localisation): self
     {
         $this->advert_localisation = $advert_localisation;
 
@@ -165,14 +177,45 @@ class Advert
         return $this;
     }
 
-    public function getAdvertUser(): ?user
+    public function getAdvertUser(): ?User
     {
         return $this->advert_user;
     }
 
-    public function setAdvertUser(?user $advert_user): self
+    public function setAdvertUser(?User $advert_user): self
     {
         $this->advert_user = $advert_user;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Like[]
+     */
+    public function getLikes(): Collection
+    {
+        return $this->likes;
+    }
+
+    public function addLike(Like $like): self
+    {
+        if (!$this->likes->contains($like)) {
+            $this->likes[] = $like;
+            $like->setLikeAdvert($this);
+        }
+
+        return $this;
+    }
+
+    public function removeLike(Like $like): self
+    {
+        if ($this->likes->contains($like)) {
+            $this->likes->removeElement($like);
+            // set the owning side to null (unless already changed)
+            if ($like->getLikeAdvert() === $this) {
+                $like->setLikeAdvert(null);
+            }
+        }
 
         return $this;
     }

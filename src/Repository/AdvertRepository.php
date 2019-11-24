@@ -50,11 +50,11 @@ class AdvertRepository extends ServiceEntityRepository
 
     public function findAllNew()
     {
-        return $this->createQueryBuilder('a')
-            ->orderBy('a.advert_date', 'DESC')
+        return$this->createQueryBuilder('a')
+            ->orderBy('a.advert_date','DESC')
             ->setMaxResults(10)
             ->getQuery()
             ->getResult()
-            ;
+        ;
     }
 }

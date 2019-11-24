@@ -46,9 +46,10 @@ class User
     private $adverts;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Like", mappedBy="user", orphanRemoval=true, cascade={"persist"})
+     * @ORM\OneToMany(targetEntity="App\Entity\Like", mappedBy="like_user", orphanRemoval=true)
      */
     private $likes;
+
 
     public function __construct()
     {
@@ -122,7 +123,7 @@ class User
     {
         if (!$this->adverts->contains($advert)) {
             $this->adverts[] = $advert;
-            $advert->setAdvertUserId($this);
+            $advert->setAdvertUser($this);
         }
 
         return $this;
@@ -133,8 +134,8 @@ class User
         if ($this->adverts->contains($advert)) {
             $this->adverts->removeElement($advert);
             // set the owning side to null (unless already changed)
-            if ($advert->getAdvertUserId() === $this) {
-                $advert->setAdvertUserId(null);
+            if ($advert->getAdvertUser() === $this) {
+                $advert->setAdvertUser(null);
             }
         }
 
@@ -153,7 +154,7 @@ class User
     {
         if (!$this->likes->contains($like)) {
             $this->likes[] = $like;
-            $like->setUser($this);
+            $like->setLikeUser($this);
         }
 
         return $this;
@@ -164,11 +165,12 @@ class User
         if ($this->likes->contains($like)) {
             $this->likes->removeElement($like);
             // set the owning side to null (unless already changed)
-            if ($like->getUser() === $this) {
-                $like->setUser(null);
+            if ($like->getLikeUser() === $this) {
+                $like->setLikeUser(null);
             }
         }
 
         return $this;
     }
+
 }
