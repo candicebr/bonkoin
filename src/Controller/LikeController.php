@@ -4,10 +4,11 @@
 namespace App\Controller;
 
 
-//use App\Entity\Like;
-//use App\Entity\Advert;
+use App\Entity\Like;
+use App\Entity\Advert;
 use App\Entity\User;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Twig\Environment;
@@ -16,6 +17,13 @@ use Symfony\Component\HttpFoundation\Request;
 
 class LikeController extends AbstractController
 {
+    private $session;
+
+    Public function __construct(SessionInterface $session)
+    {
+        $this->session = $session;
+    }
+
     /**
      * @Route("/like/{id}", name="like")
      */
@@ -27,7 +35,7 @@ class LikeController extends AbstractController
         $advert = $repository->find($id);
 
         $repository = $em->getRepository(User::class);
-        $user = $repository->find($_SESSION['id']);
+        $user = $repository->findOneBy(['id' => $this->session->get('id')]);
 
         if(!$advert) {
             throw $this->createNotFoundException('Sorry, no advert');
@@ -39,14 +47,23 @@ class LikeController extends AbstractController
         //if ($liked)
         //{
 
+
+
+        $like->setLikeUser($user);
+        $em->persist($user);
+        $like->setLikeAdvert($advert);
+        $em->persist($advert);
         dump($user);
         dump($advert);
-        $em->persist($user);
-        $em->persist($advert);
-        $like->setUser($user);
-        $like->setAdvert($advert);
-
         //$user->addLike($like);
+        //$advert->addLike($like);
+
+
+
+
+        //$like->setLikeUser($user);
+        //$like->setLikeAdvert($advert);
+
 
         $em->persist($like);
         $em->flush();

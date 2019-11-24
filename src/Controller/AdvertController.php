@@ -3,6 +3,7 @@
 
 namespace App\Controller;
 
+use App\Entity\Like;
 use App\Entity\User;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -12,11 +13,20 @@ use App\Form\AdvertType;
 use Twig\Environment;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Session\SessionInterface;
+
 
 class AdvertController extends AbstractController
 {
+    private $session;
+
+    Public function __construct(SessionInterface $session)
+    {
+        $this->session = $session;
+    }
+
     /**
-     * @Route("/adverts", name="adverts")
+     * @Route("/", name="adverts")
      */
     public function actu(EntityManagerInterface $em)
     {
@@ -39,7 +49,7 @@ class AdvertController extends AbstractController
     public function advertForm(Request $request, EntityManagerInterface $em)
     {
 
-        $user = $em->getRepository(User::class)->find($_SESSION['id']);
+        $user = $em->getRepository(User::class)->find($this->session->get('id'));
 
         $form = $this->createForm(AdvertType::class);
 
@@ -52,7 +62,9 @@ class AdvertController extends AbstractController
 
                 $em->persist($advert); // on le persiste
                 $em->flush(); // on save
-                return $this->redirectToRoute('advert', ['id' => $advert->getId()]); // Hop redirigé et on sort du controller
+                return $this->redirectToRoute('advert_update', ['id' => $advert->getId()]); // Hop redirigé et on sort du controller
+
+                //return $this->redirectToRoute('advert', ['id' => $advert->getId()]); // Hop redirigé et on sort du controller
 
             }
         return $this->render('advert_form.html.twig', ['form' => $form->createView()]); // on envoie ensuite le formulaire au template
@@ -82,8 +94,13 @@ class AdvertController extends AbstractController
      */
     public function updateAdvert(Request $request, EntityManagerInterface $em, $id)
     {
-
         $advert = $em->getRepository(Advert::class)->find($id);
+
+        if (!$advert) {
+            throw $this->createNotFoundException(
+                'No product found for id '.$id
+            );
+        }
 
         $form = $this->createForm(AdvertType::class, $advert);
 
@@ -98,6 +115,29 @@ class AdvertController extends AbstractController
             }
         return $this->render('advert_form.html.twig', ['form' => $form->createView()]); // on envoie ensuite le formulaire au template
 
+    }
+
+    /**
+     * @Route("/advert/delete/{id}", name="advert_delete")
+     */
+    public function deleteAdvert(Request $request, EntityManagerInterface $em, $id)
+    {
+        $advert = $em->getRepository(Advert::class)->find($id);
+        //$repository = $em->getRepository(Like::class);
+        //$like = $repository->findOneBy(['like_advert' => $advert]);
+
+        if (!$advert) {
+            throw $this->createNotFoundException(
+                'No product found for id '.$id
+            );
+        }
+
+        //$advert->removeLike($like);
+
+        $em->remove($advert);
+        $em->flush();
+
+        return $this->redirectToRoute('adverts'); // Hop redirigé et on sort du controller
     }
 
 

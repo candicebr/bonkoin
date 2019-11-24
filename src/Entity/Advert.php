@@ -70,6 +70,11 @@ class Advert
      */
     private $likes;
 
+    /**
+     * @ORM\OneToOne(targetEntity="App\Entity\Car", mappedBy="car_advert", cascade={"persist", "remove"})
+     */
+    private $car;
+
     public function __construct()
     {
         $this->likes = new ArrayCollection();
@@ -133,10 +138,10 @@ class Advert
         return $this->advert_date;
     }
 
-    public function setAdvertDate(\DateTimeInterface $advert_date): self
+    public function setAdvertDate(): self
     {
-        $now=newDateTime(date('YmdHis'));
-        $this->advert_date=$now;
+        $now = new DateTime(date('YmdHis'));
+        $this->advert_date = $now;
 
         return$this;
     }
@@ -215,6 +220,23 @@ class Advert
             if ($like->getLikeAdvert() === $this) {
                 $like->setLikeAdvert(null);
             }
+        }
+
+        return $this;
+    }
+
+    public function getCar(): ?Car
+    {
+        return $this->car;
+    }
+
+    public function setCar(Car $car): self
+    {
+        $this->car = $car;
+
+        // set the owning side of the relation if necessary
+        if ($car->getCarAdvert() !== $this) {
+            $car->setCarAdvert($this);
         }
 
         return $this;

@@ -22,7 +22,7 @@ class Car
     private $car_brand;
 
     /**
-     * @ORM\Column(type="date")
+     * @ORM\Column(type="integer")
      */
     private $car_date;
 
@@ -35,6 +35,12 @@ class Car
      * @ORM\Column(type="string", length=20)
      */
     private $car_fuel;
+
+    /**
+     * @ORM\OneToOne(targetEntity="App\Entity\Advert", inversedBy="car", cascade={"persist", "remove"})
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $car_advert;
 
     public function getId(): ?int
     {
@@ -53,12 +59,12 @@ class Car
         return $this;
     }
 
-    public function getCarDate(): ?\DateTimeInterface
+    public function getCarDate(): ?int
     {
         return $this->car_date;
     }
 
-    public function setCarDate(\DateTimeInterface $car_date): self
+    public function setCarDate(int $car_date): self
     {
         $this->car_date = $car_date;
 
@@ -85,6 +91,18 @@ class Car
     public function setCarFuel(string $car_fuel): self
     {
         $this->car_fuel = $car_fuel;
+
+        return $this;
+    }
+
+    public function getCarAdvert(): ?Advert
+    {
+        return $this->car_advert;
+    }
+
+    public function setCarAdvert(Advert $car_advert): self
+    {
+        $this->car_advert = $car_advert;
 
         return $this;
     }

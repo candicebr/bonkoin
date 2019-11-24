@@ -4,13 +4,24 @@
 
 {% block body %}
     <h1>{{ title }}</h1>
-    <a href="/advert/update/{{ advert.getId() }}"><h4>Update</h4></a>
+    {% if ( advert.getAdvertUser().getId() == app.session.get('id')) %}
+        <a href="/advert/update/{{ advert.getId() }}"><h4>Update</h4></a>
+        <a href="/advert/delete/{{ advert.getId() }}"><h4>Delete</h4></a>
+    {% endif %}
     <a href="/like/{{ advert.getId() }}"><h4>Like</h4></a>
     <h2>{{ advert.getAdvertTitle() }}</h2>
     <h3>{{ advert.getAdvertPrice() }}</h3>
     <p>{{ advert.getAdvertDescription() }}</p>
     <h4>{{ advert.getAdvertDate()|date }}</h4>
     <h5>{{ advert.getAdvertCategory() }}</h5>
+
+    {% if ( advert.getAdvertCategory() == 'Voitures') %}
+        <h6>{{ advert.getCar().getCarBrand() }}</h6>
+        <h6>{{ advert.getCar().getCarKm() }}</h6>
+        <h6>{{ advert.getCar().getCarFuel() }}</h6>
+        <h6>{{ advert.getCar().getCarDate()}}</h6>
+    {%  endif %}
+
 
 
     {% for message in app.flashes('notice') %}

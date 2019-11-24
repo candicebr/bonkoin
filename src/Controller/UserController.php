@@ -16,6 +16,7 @@ use Twig\Environment;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
+use Symfony\Component\HttpFoundation\Session\SessionInterface;
 
 
 
@@ -33,6 +34,13 @@ class UserController extends AbstractController
         //return $this->redirectToRoute('connection'); // Hop redirigé et on sort du controller
 
     //}
+
+    private $session;
+
+    Public function __construct(SessionInterface $session)
+    {
+        $this->session = $session;
+    }
 
     /**
      * @Route("/user/create", name="inscription")
@@ -55,12 +63,16 @@ class UserController extends AbstractController
                 $em->flush(); // on save
 
                 //initialisation de la session de l'utilisateur connecté
-                $_SESSION['user'] = $user;
-                $_SESSION['id'] = $user->getId();
+                $this->session->set('id', $user->getId());
+                $this->session->set('pseudo', $user->getPseudo());
+                $this->session->set('email', $user->getEmail());
+                $this->session->set('dateInscription', $user->getDateInscription());
+
+                /*$_SESSION['id'] = $user->getId();
                 $_SESSION['pseudo'] = $user->getPseudo();
                 $_SESSION['email'] = $user->getEmail();
                 $_SESSION['dateInscription'] = $user->getDateInscription();
-
+*/
                 return $this->redirectToRoute('connection'); // Hop redirigé et on sort du controller
             }
             $this->addFlash('notice', 'pseudo déjà utilisé');
@@ -88,11 +100,16 @@ class UserController extends AbstractController
                 if (password_verify($form->get('password')->getData(), $user->getPassword()))
                 {
                     //initialisation de la session de l'utilisateur connecté
-                    $_SESSION['user'] = $user;
+
+                    $this->session->set('id', $user->getId());
+                    $this->session->set('pseudo', $user->getPseudo());
+                    $this->session->set('email', $user->getEmail());
+                    $this->session->set('dateInscription', $user->getDateInscription());
+                    /*$_SESSION['user'] = $user;
                     $_SESSION['id'] = $user->getId();
                     $_SESSION['pseudo'] = $user->getPseudo();
                     $_SESSION['email'] = $user->getEmail();
-                    $_SESSION['dateInscription'] = $user->getDateInscription();
+                    $_SESSION['dateInscription'] = $user->getDateInscription();*/
 
                     return $this->render('profil.html.twig' , [
                         'title' => 'Profil'
@@ -117,7 +134,7 @@ class UserController extends AbstractController
      */
     public function deconnexion()
     {
-        session_destroy();
+        //session_destroy();
         return $this->redirectToRoute('connection'); // Hop redirigé et on sort du controller
 
     }
@@ -127,7 +144,7 @@ class UserController extends AbstractController
      */
     public function update(Request $request, EntityManagerInterface $em)
     {
-        $user = $em->getRepository(User::class)->find($_SESSION['id']);
+        $user = $em->getRepository(User::class)->find($this->session->get('id'));
 
         $form = $this->createForm(UserUpdateType::class);
 
@@ -155,8 +172,9 @@ class UserController extends AbstractController
             }
 
             //Mise à jour de la session de l'utilisateur
-            $_SESSION['user'] = $user;
-            $_SESSION['pseudo'] = $user->getPseudo();
+            $this->session->set('pseudo', $user->getPseudo());
+            //$_SESSION['user'] = $user;
+            //$_SESSION['pseudo'] = $user->getPseudo();
 
             $em->flush(); // on save
             return $this->render('profil.html.twig' , [

@@ -4,12 +4,14 @@ namespace App\Form;
 
 use App\Entity\Advert;
 use App\Entity\Car;
+use App\Form\CarType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\FormEvents;
 use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\Form\FormInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class AdvertType extends AbstractType
@@ -25,10 +27,10 @@ class AdvertType extends AbstractType
             ->add('advert_localisation')
             ->add('advert_category', ChoiceType::class, [
                 'choices' => [
-                    'Choisissezunecatégorie' => '"Choisissezunecatégorie"',
+                    'Choisissez une catégorie' => '"Choisissez une catégorie"',
                     'Emploi' => [
-                        "Offresd'emplois" => "Offresd'emplois",
-                        'Formationsprofessionnelles' => 'Formationsprofessionnelles',
+                        "Offres d'emplois" => "Offres d'emplois",
+                        'Formations professionnelles' => 'Formations professionnelles',
                     ],
                     'Véhicules' => [
                         'Voitures' => 'Voitures',
@@ -36,35 +38,35 @@ class AdvertType extends AbstractType
                         'Caravaning' => 'Caravaning',
                     ],
                     'Immobilier' => [
-                        'Ventesimmobilières' => 'Ventes',
+                        'Ventes immobilières' => 'Ventes',
                         'Locations' => 'Locations',
                     ],
                     'Vacances' => [
-                        'Locations&Gîtes' => 'Locations&Gîtes',
-                        "Chambresd'hôtes" => "Chambred'hôte",
+                        'Locations & Gîtes' => 'Locations & Gîtes',
+                        "Chambres d'hôtes" => "Chambre d'hôte",
                         'Campings' => 'Campings',
                         'Hôtels' => 'Hôtels',
                     ],
                     'Multimédia' => [
                         'Informatique' => 'Informatique',
-                        'ConsolesetJeuxvidéo' => 'ConsolesetJeuxvidéo',
-                        'Image&Son' => 'Image&Son',
+                        'Consoles et Jeux vidéo' => 'Consoles et Jeux vidéo',
+                        'Image & Son' => 'Image & Son',
                         'Téléphonie' => 'Téléphonie',
                     ],
                     'maison' => [
                         'Ameublement' => 'Ameublement',
                         'Electroménager' => 'Electroménager',
-                        'Artsdelatable' => 'Artsdelatable',
+                        'Arts de la table' => 'Arts de la table',
                         'Décoration' => 'Décoration',
-                        'Lingedemaison' => 'Lingedemaison',
+                        'Linge de maison' => 'Linge de maison',
                         'Bricolage' => 'Bricolage',
                         'Jardinage' => 'Jardinage',
                     ],
                     'Mode' => [
                         'Vêtements' => 'Vêtements',
                         'Chaussures' => 'Chaussures',
-                        'Accessoires&Bagagerie' => 'Accessoires&Bagagerie',
-                        'Montres&Bijoux' => 'Montres&Bijoux',
+                        'Accessoires & Bagagerie' => 'Accessoires & Bagagerie',
+                        'Montres & Bijoux' => 'Montres & Bijoux',
                         'Bébé' => 'Bébé',
                     ],
                     'Loisirs' => [
@@ -74,40 +76,44 @@ class AdvertType extends AbstractType
                         'Animaux' => 'Animaux',
                         'Vélos' => 'Vélos',
                         'Sports&Hobbies' => 'Sports&Hobbies',
-                        'Instrumentsdemusique' => 'Instrumentsdemusique',
-                        'Jeux&Jouets' => 'Jeux&Jouets',
+                        'Instruments de musique' => 'Instruments de musique',
+                        'Jeux & Jouets' => 'Jeux & Jouets',
                     ],
                     'Divers' => [
                         'Autres' => 'Autres'
                     ],
                 ],
             ])
-//->addEventListener(FormEvents::PRE_SET_DATA,
-//[$this,'onPreSetData'])
-
         ;
 
-        $builder->get('advert_category')->addEventListener(FormEvents::PRE_SET_DATA,
-            [$this, 'onPreSetData']);
+        $formModifier = function(FormInterface $form, Advert $advert = null) {
+            if($advert) {
+                if ($advert->getAdvertCategory() == 'Voitures') {
+                    $form->add('Car', CarType::class);
+                }
+            }
+        };
+
+        $builder->addEventListener(
+            FormEvents::PRE_SET_DATA,
+            function (FormEvent $event) use ($formModifier)
+            {
+
+                $formModifier($event->getForm(), $event->getData());
+            }
+
+        );
+/*
+        $builder->get('advert_category')->addEventListener(
+            FormEvents::POST_SUBMIT,
+            function (FormEvent $event) use ($formModifier)
+            {
+                $formModifier($event->getForm()->getParent(), $event->getForm()->getData());
+
+            }
+        );*/
+
     }
-
-
-    public function onPreSetData(FormEvent$event) {
-        //$advert=$event->getData();
-        $form=$event->getForm()->getParent();
-        $advert=$form->getData();
-        dump($advert);
-
-        if(!$advert){
-            return;
-        }
-
-
-        if(isset($advert['advert_category'])&&$advert['advert_category']=='Voitures'){
-            $form->getParent()->add('car',CarType::class);
-        }
-    }
-
 
     public function configureOptions(OptionsResolver $resolver)
     {
