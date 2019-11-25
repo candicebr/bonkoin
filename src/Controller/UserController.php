@@ -43,7 +43,7 @@ class UserController extends AbstractController
     }
 
     /**
-     * @Route("/user/create", name="inscription")
+     * @Route("/inscription", name="inscription")
      */
     public function inscription(Request $request, EntityManagerInterface $em, UserPasswordEncoderInterface $encoder){
 
