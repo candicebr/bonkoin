@@ -140,5 +140,35 @@ class AdvertController extends AbstractController
         return $this->redirectToRoute('adverts'); // Hop redirigé et on sort du controller
     }
 
+    /**
+     * @Route("/user/adverts/{id}", name="user_adverts")
+     */
+    public function advertsFromUser (Request $request, EntityManagerInterface $em, $id)
+    {
+        $adverts = $em->getRepository(Advert::class)->findByUser($id);
 
+        return $this->render('adverts_user.html.twig', [
+            'title' => 'AdvertFromUser',
+            'adverts' => $adverts
+        ]);
+    }
+
+    /**
+     * @Route("/profil", name="profil")
+     */
+    public function profil (Request $request, EntityManagerInterface $em)
+    {
+        $repository = $em->getRepository(Advert::class);
+        $adverts = $repository->findAllNew();
+
+        if (!$adverts) {
+            throw $this->createNotFoundException('Sorry, no advert');
+        }
+
+        return $this->render('profil.html.twig', [
+            'title' => 'Profil',
+            'adverts' => $adverts
+        ]);
+
+    }
 }

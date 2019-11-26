@@ -22,19 +22,6 @@ use Symfony\Component\HttpFoundation\Session\SessionInterface;
 
 class UserController extends AbstractController
 {
-    /**
-     * @Route("/", name="homepage")
-     **/
-    ///public function index() {
-
-       /* return $this->render('connection.html.twig', [
-            'title' => 'hello world'
-        ]);*/
-
-        //return $this->redirectToRoute('connection'); // Hop redirigé et on sort du controller
-
-    //}
-
     private $session;
 
     Public function __construct(SessionInterface $session)
@@ -68,11 +55,6 @@ class UserController extends AbstractController
                 $this->session->set('email', $user->getEmail());
                 $this->session->set('dateInscription', $user->getDateInscription());
 
-                /*$_SESSION['id'] = $user->getId();
-                $_SESSION['pseudo'] = $user->getPseudo();
-                $_SESSION['email'] = $user->getEmail();
-                $_SESSION['dateInscription'] = $user->getDateInscription();
-*/
                 return $this->redirectToRoute('connection'); // Hop redirigé et on sort du controller
             }
             $this->addFlash('notice', 'pseudo déjà utilisé');
@@ -96,7 +78,6 @@ class UserController extends AbstractController
 
             if($user)
             {
-                //if ($encoder->isPasswordValid($user, $user_info->getPassword()))
                 if (password_verify($form->get('password')->getData(), $user->getPassword()))
                 {
                     //initialisation de la session de l'utilisateur connecté
@@ -105,15 +86,8 @@ class UserController extends AbstractController
                     $this->session->set('pseudo', $user->getPseudo());
                     $this->session->set('email', $user->getEmail());
                     $this->session->set('dateInscription', $user->getDateInscription());
-                    /*$_SESSION['user'] = $user;
-                    $_SESSION['id'] = $user->getId();
-                    $_SESSION['pseudo'] = $user->getPseudo();
-                    $_SESSION['email'] = $user->getEmail();
-                    $_SESSION['dateInscription'] = $user->getDateInscription();*/
 
-                    return $this->render('profil.html.twig' , [
-                        'title' => 'Profil'
-                    ]);
+                    return $this->redirectToRoute('profil');
                 }
                 else {
                     $this->addFlash('notice', 'mauvais mot de passe');
@@ -136,7 +110,6 @@ class UserController extends AbstractController
     {
         //session_destroy();
         return $this->redirectToRoute('connection'); // Hop redirigé et on sort du controller
-
     }
 
     /**
@@ -173,8 +146,6 @@ class UserController extends AbstractController
 
             //Mise à jour de la session de l'utilisateur
             $this->session->set('pseudo', $user->getPseudo());
-            //$_SESSION['user'] = $user;
-            //$_SESSION['pseudo'] = $user->getPseudo();
 
             $em->flush(); // on save
             return $this->render('profil.html.twig' , [

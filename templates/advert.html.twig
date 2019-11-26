@@ -4,23 +4,27 @@
 
 {% block body %}
     <h1>{{ title }}</h1>
-    {% if ( advert.getAdvertUser().getId() == app.session.get('id')) %}
-        <a href="/advert/update/{{ advert.getId() }}"><h4>Update</h4></a>
-        <a href="/advert/delete/{{ advert.getId() }}"><h4>Delete</h4></a>
-    {% endif %}
+
     <a href="/like/{{ advert.getId() }}"><h4>Like</h4></a>
     <h2>{{ advert.getAdvertTitle() }}</h2>
-    <h3>{{ advert.getAdvertPrice() }}</h3>
-    <p>{{ advert.getAdvertDescription() }}</p>
-    <h4>{{ advert.getAdvertDate()|date }}</h4>
-    <h5>{{ advert.getAdvertCategory() }}</h5>
+    <h3>{{ advert.getAdvertPrice() }} €</h3>
+    <h4>{{ advert.getAdvertCategory() }}</h4>
+    <h5>{{ advert.getAdvertDate()|date }}</h5>
+    Localisation : <h4>{{ advert.getAdvertLocalisation() }}</h4>
+    Description : <p>{{ advert.getAdvertDescription() }}</p>
 
+    Critères :
     {% if ( advert.getAdvertCategory() == 'Voitures') %}
         <h6>{{ advert.getCar().getCarBrand() }}</h6>
         <h6>{{ advert.getCar().getCarKm() }}</h6>
         <h6>{{ advert.getCar().getCarFuel() }}</h6>
         <h6>{{ advert.getCar().getCarDate()}}</h6>
     {%  endif %}
+
+
+    <a href="/user/adverts/{{ advert.getAdvertUser.getId()}}"><h4>{{ advert.getAdvertUser().getPseudo() }}</h4></a>
+    <h5>{{ advert.getAdvertuser.getEmail() }}</h5>
+    <h5>Membre depuis : {{ advert.getAdvertUser().getDateInscription()|date("m/d/y") }}</h5>
 
 
 

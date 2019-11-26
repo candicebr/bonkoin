@@ -35,7 +35,6 @@ class AdvertType extends AbstractType
                     'Véhicules' => [
                         'Voitures' => 'Voitures',
                         'Motos' => 'Motos',
-                        'Caravaning' => 'Caravaning',
                     ],
                     'Immobilier' => [
                         'Ventes immobilières' => 'Ventes',
@@ -56,10 +55,8 @@ class AdvertType extends AbstractType
                     'maison' => [
                         'Ameublement' => 'Ameublement',
                         'Electroménager' => 'Electroménager',
-                        'Arts de la table' => 'Arts de la table',
                         'Décoration' => 'Décoration',
-                        'Linge de maison' => 'Linge de maison',
-                        'Bricolage' => 'Bricolage',
+                        'Bricolage &' => 'Bricolage',
                         'Jardinage' => 'Jardinage',
                     ],
                     'Mode' => [
@@ -67,16 +64,13 @@ class AdvertType extends AbstractType
                         'Chaussures' => 'Chaussures',
                         'Accessoires & Bagagerie' => 'Accessoires & Bagagerie',
                         'Montres & Bijoux' => 'Montres & Bijoux',
-                        'Bébé' => 'Bébé',
                     ],
                     'Loisirs' => [
                         'DVD/Films' => 'DVD/Films',
                         'CD/Musique' => 'CD/Musique',
                         'Livres' => 'Livres',
                         'Animaux' => 'Animaux',
-                        'Vélos' => 'Vélos',
                         'Sports&Hobbies' => 'Sports&Hobbies',
-                        'Instruments de musique' => 'Instruments de musique',
                         'Jeux & Jouets' => 'Jeux & Jouets',
                     ],
                     'Divers' => [
