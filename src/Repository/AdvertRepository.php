@@ -52,7 +52,6 @@ class AdvertRepository extends ServiceEntityRepository
     {
         return$this->createQueryBuilder('a')
             ->orderBy('a.advert_date','DESC')
-            ->setMaxResults(10)
             ->getQuery()
             ->getResult()
         ;
@@ -64,7 +63,17 @@ class AdvertRepository extends ServiceEntityRepository
             ->andWhere('a.advert_user = :val')
             ->setParameter('val', $id)
             ->orderBy('a.advert_date','DESC')
-            ->setMaxResults(10)
+            ->getQuery()
+            ->getResult()
+            ;
+    }
+
+    public function findByCategory($value)
+    {
+        return $this->createQueryBuilder('a')
+            ->andWhere('a.advert_category = :val')
+            ->setParameter('val', $value)
+            ->orderBy('a.advert_date','DESC')
             ->getQuery()
             ->getResult()
             ;

@@ -5,6 +5,7 @@ namespace App\Controller;
 
 use App\Entity\Like;
 use App\Entity\User;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -170,5 +171,19 @@ class AdvertController extends AbstractController
             'adverts' => $adverts
         ]);
 
+    }
+
+    /**
+     * @Route("/api/adverts/{category}", name="advets_list_by_category")
+     */
+    public function listAdvertsByCategory(Request $request, EntityManagerInterface $em, $category)
+    {
+        $adverts = $em->getRepository(Advert::class)->findBy(['advert_category' => $category], ['advert_date' => 'DESC'] );
+        $data = array();
+        foreach ($adverts as $key => $advert){
+            $data[$key]['title'] = $advert->getAdvertTitle();
+        }
+
+        return new JsonResponse($data);
     }
 }

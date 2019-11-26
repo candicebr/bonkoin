@@ -19,7 +19,6 @@ use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 
 
-
 class UserController extends AbstractController
 {
     private $session;
@@ -55,7 +54,7 @@ class UserController extends AbstractController
                 $this->session->set('email', $user->getEmail());
                 $this->session->set('dateInscription', $user->getDateInscription());
 
-                return $this->redirectToRoute('connection'); // Hop redirigé et on sort du controller
+                return $this->redirectToRoute('adverts'); // Hop redirigé et on sort du controller
             }
             $this->addFlash('notice', 'pseudo déjà utilisé');
             return $this->render('inscription.html.twig', ['form' => $form->createView()]);
@@ -109,7 +108,7 @@ class UserController extends AbstractController
     public function deconnexion()
     {
         //session_destroy();
-        return $this->redirectToRoute('connection'); // Hop redirigé et on sort du controller
+        return $this->redirectToRoute('adverts'); // Hop redirigé et on sort du controller
     }
 
     /**
@@ -148,9 +147,8 @@ class UserController extends AbstractController
             $this->session->set('pseudo', $user->getPseudo());
 
             $em->flush(); // on save
-            return $this->render('profil.html.twig' , [
-                'title' => 'Profil'
-            ]);
+            return $this->redirectToRoute('profil');
+
         }
         return $this->render('update_profil.html.twig', ['form' => $form->createView()]);
     }
