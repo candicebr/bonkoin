@@ -8,6 +8,7 @@
     <a href="/deconnexion"><h4>Se déconnecter</h4></a>
     <a href="/advert_form"><h4>Déposer une annonce</h4></a>
     <a href="/user/adverts/{{ app.session.get('id')}}"><h4>Mes annonces</h4></a>
+    <a href="/user/favorites"><h4>Mes favoris</h4></a>
 
 
     {% for message in app.flashes('notice') %}
@@ -19,6 +20,11 @@
     <li>
         {% for advert in adverts %}
             <a href="/like/{{ advert.getId() }}"><h4>Like</h4></a>
+            {% for message in app.flashes('notice') %}
+                <div class="flash-notice">
+                    {{ message }}
+                </div>
+            {% endfor %}
             <a href="/advert/{{ advert.getId() }}"><h2>{{ advert.getAdvertTitle() }}</h2></a>
             <h3>{{ advert.getAdvertPrice() }} €</h3>
             <h4>{{ advert.getAdvertCategory() }}</h4>

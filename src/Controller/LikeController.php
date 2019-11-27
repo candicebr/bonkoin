@@ -41,38 +41,31 @@ class LikeController extends AbstractController
             throw $this->createNotFoundException('Sorry, no advert');
         }
 
-        //$repository = $em->getRepository(Like::class);
-        //$liked = $repository->findOneByIds($advert, $_SESSION['user']);
+        $repository = $em->getRepository(Like::class);
+        $liked = $repository->findOneByIds($advert, $this->session->get('id'));
 
-        //if ($liked)
-        //{
+        if ($liked == null) {
 
+            $like->setLikeUser($user);
+            $em->persist($user);
+            $like->setLikeAdvert($advert);
+            $em->persist($advert);
 
+            $em->persist($like);
+            $em->flush();
+            $this->addFlash('notice', 'Liked');
 
-        $like->setLikeUser($user);
-        $em->persist($user);
-        $like->setLikeAdvert($advert);
-        $em->persist($advert);
-        dump($user);
-        dump($advert);
+        }
+        else
+        {
+            $em->remove($liked);
+            $em->flush();
+            $this->addFlash('notice', 'Unliked');
+
+        }
         //$user->addLike($like);
         //$advert->addLike($like);
 
-
-
-
-        //$like->setLikeUser($user);
-        //$like->setLikeAdvert($advert);
-
-
-        $em->persist($like);
-        $em->flush();
-        //}
-        //else {
-         //   $em->remove($liked);
-         //   $em->flush();
-        //}
-
-        return $this->redirectToRoute('advert');
+        return $this->redirectToRoute('profil');
     }
 }

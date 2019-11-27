@@ -5,7 +5,14 @@
 {% block body %}
     <h1>{{ title }}</h1>
 
-    <a href="/like/{{ advert.getId() }}"><h4>Like</h4></a>
+    {% if ( app.session.get('id')) %}
+        <a href="/like/{{ advert.getId() }}"><h4>Like</h4></a>
+    {% endif %}
+    {% for message in app.flashes('notice') %}
+        <div class="flash-notice">
+            {{ message }}
+        </div>
+    {% endfor %}
     <h2>{{ advert.getAdvertTitle() }}</h2>
     <h3>{{ advert.getAdvertPrice() }} €</h3>
     <h4>{{ advert.getAdvertCategory() }}</h4>

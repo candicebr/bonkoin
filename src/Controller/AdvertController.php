@@ -124,8 +124,6 @@ class AdvertController extends AbstractController
     public function deleteAdvert(Request $request, EntityManagerInterface $em, $id)
     {
         $advert = $em->getRepository(Advert::class)->find($id);
-        //$repository = $em->getRepository(Like::class);
-        //$like = $repository->findOneBy(['like_advert' => $advert]);
 
         if (!$advert) {
             throw $this->createNotFoundException(
@@ -133,12 +131,10 @@ class AdvertController extends AbstractController
             );
         }
 
-        //$advert->removeLike($like);
-
         $em->remove($advert);
         $em->flush();
 
-        return $this->redirectToRoute('adverts'); // Hop redirigé et on sort du controller
+        return $this->redirectToRoute('profil'); // Hop redirigé et on sort du controller
     }
 
     /**
@@ -170,7 +166,24 @@ class AdvertController extends AbstractController
             'title' => 'Profil',
             'adverts' => $adverts
         ]);
+    }
 
+    /**
+     * @Route("/user/favorites", name="user_favorites")
+     */
+    public function favorites(Request $request, EntityManagerInterface $em)
+    {
+        $user = $em->getRepository(User::class)->find($this->session->get('id'));
+        $adverts = array();
+        foreach ( $user->getLikes() as $likes )
+        {
+            $adverts[] = $likes->getLikeAdvert();
+        }
+
+        return $this->render('adverts_user.html.twig', [
+            'title' => 'Favorite',
+            'adverts' => $adverts,
+        ]);
     }
 
     /**

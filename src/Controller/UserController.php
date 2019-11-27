@@ -107,7 +107,11 @@ class UserController extends AbstractController
      */
     public function deconnexion()
     {
-        //session_destroy();
+        $this->session->set('id', null);
+        $this->session->set('pseudo', null);
+        $this->session->set('email', null);
+        $this->session->set('dateInscription', null);
+
         return $this->redirectToRoute('adverts'); // Hop redirigé et on sort du controller
     }
 
