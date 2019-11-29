@@ -14,9 +14,9 @@ class CarType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('car_brand')
-            ->add('car_date')
-            ->add('car_km')
+            ->add('car_brand', null, ['label' => 'Marque'])
+            ->add('car_date', null, ['label' => 'Année modèle'])
+            ->add('car_km', null, ['label' => 'Kilométrage'])
             ->add('car_fuel', ChoiceType::class, [
                 'choices' => [
                     'Essence' => 'Essence',
@@ -24,7 +24,7 @@ class CarType extends AbstractType
                     'Hybride' => 'Hybride',
                     'Electrique' => 'Electrique',
                     'Autre' => 'Autre'
-                ],
+                ],'label' => 'Carburant'
             ])
         ;
     }

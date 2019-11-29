@@ -3,8 +3,6 @@
 namespace App\Form;
 
 use App\Entity\Advert;
-use App\Entity\Car;
-use App\Form\CarType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
@@ -19,15 +17,9 @@ class AdvertType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('advert_title')
-            ->add('advert_description')
-            ->add('advert_price')
-            ->add('advert_photo')
-            ->add('advert_region')
-            ->add('advert_localisation')
             ->add('advert_category', ChoiceType::class, [
                 'choices' => [
-                    'Choisissez une catégorie' => '"Choisissez une catégorie"',
+                    '"Choisissez"' => null,
                     'Emploi' => [
                         "Offres d'emplois" => "Offres d'emplois",
                         'Formations professionnelles' => 'Formations professionnelles',
@@ -37,15 +29,15 @@ class AdvertType extends AbstractType
                         'Motos' => 'Motos',
                     ],
                     'Immobilier' => [
-                        'Ventes immobilières' => 'Ventes',
+                        'Ventes immobilières' => 'Ventes immobilières',
                         'Locations' => 'Locations',
                     ],
-                    'Vacances' => [
+                    /*'Vacances' => [
                         'Locations & Gîtes' => 'Locations & Gîtes',
                         "Chambres d'hôtes" => "Chambre d'hôte",
                         'Campings' => 'Campings',
                         'Hôtels' => 'Hôtels',
-                    ],
+                    ],*/
                     'Multimédia' => [
                         'Informatique' => 'Informatique',
                         'Consoles et Jeux vidéo' => 'Consoles et Jeux vidéo',
@@ -62,28 +54,38 @@ class AdvertType extends AbstractType
                     'Mode' => [
                         'Vêtements' => 'Vêtements',
                         'Chaussures' => 'Chaussures',
-                        'Accessoires & Bagagerie' => 'Accessoires & Bagagerie',
-                        'Montres & Bijoux' => 'Montres & Bijoux',
+                        'Accessoires' => 'Accessoires',
                     ],
                     'Loisirs' => [
                         'DVD/Films' => 'DVD/Films',
                         'CD/Musique' => 'CD/Musique',
                         'Livres' => 'Livres',
                         'Animaux' => 'Animaux',
-                        'Sports&Hobbies' => 'Sports&Hobbies',
                         'Jeux & Jouets' => 'Jeux & Jouets',
                     ],
                     'Divers' => [
                         'Autres' => 'Autres'
                     ],
-                ],
+                ],'label' => 'Catégorie'
             ])
+            ->add('advert_title', null, ['label' => "Titre de l'annonce"])
+            ->add('advert_description', null, ['label' => 'Description'])
+            ->add('advert_price', null, ['label' => 'Prix'])
+            ->add('advert_photo', null, ['label' => 'Photos'])
+            ->add('advert_region', null, ['label' => 'Région'])
+            ->add('advert_localisation', null, ['label' => 'Adresse'])
         ;
 
         $formModifier = function(FormInterface $form, Advert $advert = null) {
             if($advert) {
                 if ($advert->getAdvertCategory() == 'Voitures') {
                     $form->add('Car', CarType::class);
+                }
+                else if ($advert->getAdvertCategory() == 'Ventes immobilières' || $advert->getAdvertCategory() == 'Locations') {
+                    $form->add('Immovable', ImmovableType::class);
+                }
+                else if ($advert->getAdvertCategory() == 'Vêtements') {
+                    $form->add('Clothe', ClotheType::class);
                 }
             }
         };
@@ -92,10 +94,8 @@ class AdvertType extends AbstractType
             FormEvents::PRE_SET_DATA,
             function (FormEvent $event) use ($formModifier)
             {
-
                 $formModifier($event->getForm(), $event->getData());
             }
-
         );
 /*
         $builder->get('advert_category')->addEventListener(

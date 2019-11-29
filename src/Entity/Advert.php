@@ -75,6 +75,16 @@ class Advert
      */
     private $car;
 
+    /**
+     * @ORM\OneToOne(targetEntity="App\Entity\Immovable", mappedBy="immovable_advert", cascade={"persist", "remove"})
+     */
+    private $immovable;
+
+    /**
+     * @ORM\OneToOne(targetEntity="App\Entity\Clothe", mappedBy="clothe_advert", cascade={"persist", "remove"})
+     */
+    private $clothe;
+
     public function __construct()
     {
         $this->likes = new ArrayCollection();
@@ -237,6 +247,40 @@ class Advert
         // set the owning side of the relation if necessary
         if ($car->getCarAdvert() !== $this) {
             $car->setCarAdvert($this);
+        }
+
+        return $this;
+    }
+
+    public function getImmovable(): ?Immovable
+    {
+        return $this->immovable;
+    }
+
+    public function setImmovable(Immovable $immovable): self
+    {
+        $this->immovable = $immovable;
+
+        // set the owning side of the relation if necessary
+        if ($immovable->getImmovableAdvert() !== $this) {
+            $immovable->setImmovableAdvert($this);
+        }
+
+        return $this;
+    }
+
+    public function getClothe(): ?Clothe
+    {
+        return $this->clothe;
+    }
+
+    public function setClothe(Clothe $clothe): self
+    {
+        $this->clothe = $clothe;
+
+        // set the owning side of the relation if necessary
+        if ($clothe->getClotheAdvert() !== $this) {
+            $clothe->setClotheAdvert($this);
         }
 
         return $this;

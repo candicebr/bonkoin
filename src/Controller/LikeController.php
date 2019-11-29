@@ -29,8 +29,6 @@ class LikeController extends AbstractController
      */
     public function likeAdvert(EntityManagerInterface $em, $id) {
 
-        $like = new Like();
-
         $repository = $em->getRepository(Advert::class);
         $advert = $repository->find($id);
 
@@ -45,7 +43,7 @@ class LikeController extends AbstractController
         $liked = $repository->findOneByIds($advert, $this->session->get('id'));
 
         if ($liked == null) {
-
+            $like = new Like();
             $like->setLikeUser($user);
             $em->persist($user);
             $like->setLikeAdvert($advert);
@@ -53,19 +51,13 @@ class LikeController extends AbstractController
 
             $em->persist($like);
             $em->flush();
-            $this->addFlash('notice', 'Liked');
-
         }
         else
         {
             $em->remove($liked);
             $em->flush();
-            $this->addFlash('notice', 'Unliked');
-
         }
-        //$user->addLike($like);
-        //$advert->addLike($like);
 
-        return $this->redirectToRoute('profil');
+        return $this->redirectToRoute('advert', ['id' => $id]);
     }
 }

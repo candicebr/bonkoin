@@ -4,15 +4,14 @@
 
 {% block body %}
     <h1>{{ title }}</h1>
-
     {% if ( app.session.get('id')) %}
-        <a href="/like/{{ advert.getId() }}"><h4>Like</h4></a>
+        {% if ( liked ) %}
+            <a href="/like/{{ advert.getId() }}"><h4>Unlike</h4></a>
+        {% else %}
+            <a href="/like/{{ advert.getId() }}"><h4>Like</h4></a>
+        {% endif %}
     {% endif %}
-    {% for message in app.flashes('notice') %}
-        <div class="flash-notice">
-            {{ message }}
-        </div>
-    {% endfor %}
+
     <h2>{{ advert.getAdvertTitle() }}</h2>
     <h3>{{ advert.getAdvertPrice() }} €</h3>
     <h4>{{ advert.getAdvertCategory() }}</h4>
@@ -20,12 +19,26 @@
     Localisation : <h4>{{ advert.getAdvertLocalisation() }}</h4>
     Description : <p>{{ advert.getAdvertDescription() }}</p>
 
-    Critères :
+
     {% if ( advert.getAdvertCategory() == 'Voitures') %}
-        <h6>{{ advert.getCar().getCarBrand() }}</h6>
-        <h6>{{ advert.getCar().getCarKm() }}</h6>
-        <h6>{{ advert.getCar().getCarFuel() }}</h6>
-        <h6>{{ advert.getCar().getCarDate()}}</h6>
+        Critères :
+        <h6>Marque: {{ advert.getCar().getCarBrand() }}</h6>
+        <h6>Kilomètrage: {{ advert.getCar().getCarKm() }}</h6>
+        <h6>Essence: {{ advert.getCar().getCarFuel() }}</h6>
+        <h6>Année du modèle: {{ advert.getCar().getCarDate()}}</h6>
+            {% elseif (advert.getAdvertCategory() == 'Ventes immobilières' or advert.getAdvertCategory() == 'Locations') %}
+                Critères :
+                <h6>Type: {{ advert.getImmovable().getImmovableType() }}</h6>
+                <h6>Surface: {{ advert.getImmovable().getImmovableSurface() }}</h6>
+                <h6>Pièces: {{ advert.getImmovable().getImmovableRoom() }}</h6>
+                <h6>Classe énergie: {{ advert.getImmovable().getImmovableEnergy()}}</h6>
+            {% elseif (advert.getAdvertCategory() == 'Vêtements') %}
+                Critères :
+                <h6>Univers: {{ advert.getClothe().getClotheUniverse() }}</h6>
+                <h6>Type de vêtements: {{ advert.getClothe().getClotheType() }}</h6>
+                <h6>Marque: {{ advert.getClothe().getClotheBrand() }}</h6>
+                <h6>Couleur: {{ advert.getClothe().getClotheColor() }}</h6>
+                <h6>Etat: {{ advert.getClothe().getClotheState()}}</h6>
     {%  endif %}
 
 

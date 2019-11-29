@@ -64,12 +64,8 @@ class AdvertController extends AbstractController
                 $em->persist($advert); // on le persiste
                 $em->flush(); // on save
                 return $this->redirectToRoute('advert_update', ['id' => $advert->getId()]); // Hop redirigé et on sort du controller
-
-                //return $this->redirectToRoute('advert', ['id' => $advert->getId()]); // Hop redirigé et on sort du controller
-
             }
         return $this->render('advert_form.html.twig', ['form' => $form->createView()]); // on envoie ensuite le formulaire au template
-
     }
 
     /**
@@ -84,9 +80,21 @@ class AdvertController extends AbstractController
             throw $this->createNotFoundException('Sorry, no advert');
         }
 
+        foreach ($advert->getLikes() as $likes)
+        {
+            if ($likes->getLikeUser()->getId() == $this->session->get('id'))
+            {    return $this->render('advert.html.twig', [
+                    'title' => 'Advert',
+                    'advert' => $advert,
+                    'liked' => true
+                ]);
+            }
+        }
+
         return $this->render('advert.html.twig', [
             'title' => 'Advert',
-            'advert' => $advert
+            'advert' => $advert,
+            'liked' => false
         ]);
     }
 
@@ -195,6 +203,12 @@ class AdvertController extends AbstractController
         $data = array();
         foreach ($adverts as $key => $advert){
             $data[$key]['title'] = $advert->getAdvertTitle();
+            $data[$key]['price'] = $advert->getAdvertPrice();
+            $data[$key]['description'] = $advert->getAdvertDescription();
+            $data[$key]['date'] = $advert->getAdvertDate();
+            $data[$key]['localisation'] = $advert->getAdvertLocalisation();
+            $data[$key]['category'] = $advert->getAdvertCategory();
+            $data[$key]['region'] = $advert->getAdvertRegion();
         }
 
         return new JsonResponse($data);
