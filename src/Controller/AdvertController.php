@@ -3,6 +3,7 @@
 
 namespace App\Controller;
 
+use App\Entity\AdvertSearch;
 use App\Entity\Like;
 use App\Entity\User;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -142,7 +143,7 @@ class AdvertController extends AbstractController
         $em->remove($advert);
         $em->flush();
 
-        return $this->redirectToRoute('profil'); // Hop redirigé et on sort du controller
+        return $this->redirectToRoute('actu_user'); // Hop redirigé et on sort du controller
     }
 
     /**
@@ -163,6 +164,20 @@ class AdvertController extends AbstractController
      */
     public function profil (Request $request, EntityManagerInterface $em)
     {
+        $adverts = $em->getRepository(Advert::class)->findByUser($this->session->get('id'));
+
+        return $this->render('profil.html.twig', [
+            'title' => 'Profil',
+            'adverts' => $adverts
+        ]);
+    }
+
+    /**
+     * @Route("/actu_user", name ="actu_user")
+     */
+    public function actuUser (Request $request, EntityManagerInterface $em)
+    {
+
         $repository = $em->getRepository(Advert::class);
         $adverts = $repository->findAllNew();
 
@@ -170,10 +185,7 @@ class AdvertController extends AbstractController
             throw $this->createNotFoundException('Sorry, no advert');
         }
 
-        return $this->render('profil.html.twig', [
-            'title' => 'Profil',
-            'adverts' => $adverts
-        ]);
+        return $this->redirectToRoute('adverts');
     }
 
     /**
@@ -212,5 +224,16 @@ class AdvertController extends AbstractController
         }
 
         return new JsonResponse($data);
+    }
+
+    /**
+     * @Route("/recherche", name="recherche")
+     */
+    public function search(Request $request, EntityManagerInterface $em)
+    {
+        $search = new AdvertSearch();
+        $form = $this->createForm(AdvertSearchType::class, $search);
+        $form->handleRequest($request);
+
     }
 }

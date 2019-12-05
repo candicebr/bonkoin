@@ -4,21 +4,14 @@
 
 {% block body %}
     <h1>{{ title }}</h1>
-    <a href="/user/update"><h4>Update</h4></a>
-    <a href="/deconnexion"><h4>Se déconnecter</h4></a>
-    <a href="/advert_form"><h4>Déposer une annonce</h4></a>
-    <a href="/user/adverts/{{ app.session.get('id')}}"><h4>Mes annonces</h4></a>
-    <a href="/user/favorites"><h4>Mes favoris</h4></a>
+    <a href="/user/update"><h4>Modifier le profil</h4></a>
 
-
-    {% for message in app.flashes('notice') %}
-        <div class="flash-notice">
-            {{ message }}
-        </div>
-    {% endfor %}
-
+    <h3>Email: {{ app.session.get('email') }}</h3>
+    <h3>Pseudo: {{ app.session.get('pseudo') }}</h3>
     <li>
         {% for advert in adverts %}
+            <a href="/advert/update/{{ advert.getId() }}"><h4>Update</h4></a>
+            <a href="/advert/delete/{{ advert.getId() }}"><h4>Delete</h4></a>
             <a href="/advert/{{ advert.getId() }}"><h2>{{ advert.getAdvertTitle() }}</h2></a>
             <h3>{{ advert.getAdvertPrice() }} €</h3>
             <h4>{{ advert.getAdvertCategory() }}</h4>

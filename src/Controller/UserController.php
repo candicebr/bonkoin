@@ -54,7 +54,7 @@ class UserController extends AbstractController
                 $this->session->set('email', $user->getEmail());
                 $this->session->set('dateInscription', $user->getDateInscription());
 
-                return $this->redirectToRoute('adverts'); // Hop redirigé et on sort du controller
+                return $this->redirectToRoute('adverts');
             }
             $this->addFlash('notice', 'pseudo déjà utilisé');
             return $this->render('inscription.html.twig', ['form' => $form->createView()]);
@@ -86,7 +86,7 @@ class UserController extends AbstractController
                     $this->session->set('email', $user->getEmail());
                     $this->session->set('dateInscription', $user->getDateInscription());
 
-                    return $this->redirectToRoute('profil');
+                    return $this->redirectToRoute('actu_user');
                 }
                 else {
                     $this->addFlash('notice', 'mauvais mot de passe');
