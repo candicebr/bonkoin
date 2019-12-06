@@ -47,4 +47,50 @@ class ImmovableRepository extends ServiceEntityRepository
         ;
     }
     */
+
+    /**
+     * @param $adverts
+     * @param $search
+     * @return mixed
+     * Récupère les biens immobiliers correspondant à la recherche dans une sélection d'annonce donnée
+     */
+    public function findAllBySearch($adverts, $search)
+    {
+        $query=$this->createQueryBuilder('i')
+            ->andWhere('i.immovable_advert IN (:adverts)')
+            ->setParameter('adverts',$adverts)
+        ;
+
+        if($search->getImmovableType()){
+            $query=$query
+                ->andWhere('i.immovable_type = :type')
+                ->setParameter('type',$search->getImmovableType())
+            ;
+        }
+
+        if($search->getImmovableSurface()){
+            $query=$query
+                ->andWhere('i.immovable_surface >= :surface')
+                ->setParameter('surface',$search->getImmovableSurface())
+            ;
+        }
+
+        if($search->getImmovableRoom()){
+            $query=$query
+                ->andWhere('i.immovable_room >= :room')
+                ->setParameter('room',$search->getImmovableRoom())
+            ;
+        }
+
+        if($search->getImmovableEnergy()){
+            $query=$query
+                ->andWhere('i.immovable_energy = :energy')
+                ->setParameter('energy',$search->getImmovableEnergy())
+            ;
+        }
+
+        return$query->getQuery()
+            ->getResult()
+            ;
+    }
 }

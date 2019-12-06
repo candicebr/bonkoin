@@ -5,33 +5,214 @@ namespace App\Form;
 
 
 use App\Entity\AdvertSearch;
-use Doctrine\DBAL\Types\IntegerType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\Form\FormEvent;
+use Symfony\Component\Form\FormEvents;
+use Symfony\Component\Form\FormInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\MoneyType;
 
 class AdvertSearchType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('minSurface', IntegerType::class, [
-                'required' => false,
+            ->add('category', ChoiceType::class, [
+                'choices' => [
+                    '"Choisissez Catégorie"' => null,
+                    'Emploi' => [
+                        "Offres d'emplois" => "Offres d'emplois",
+                        'Formations professionnelles' => 'Formations professionnelles',
+                    ],
+                    'Véhicules' => [
+                        'Voitures' => 'Voitures',
+                        'Motos' => 'Motos',
+                    ],
+                    'Immobilier' => [
+                        'Ventes immobilières' => 'Ventes immobilières',
+                        'Locations' => 'Locations',
+                    ],
+                    'Multimédia' => [
+                        'Informatique' => 'Informatique',
+                        'Consoles et Jeux vidéo' => 'Consoles et Jeux vidéo',
+                        'Image & Son' => 'Image & Son',
+                        'Téléphonie' => 'Téléphonie',
+                    ],
+                    'maison' => [
+                        'Ameublement' => 'Ameublement',
+                        'Electroménager' => 'Electroménager',
+                        'Décoration' => 'Décoration',
+                        'Bricolage &' => 'Bricolage',
+                        'Jardinage' => 'Jardinage',
+                    ],
+                    'Mode' => [
+                        'Vêtements' => 'Vêtements',
+                        'Chaussures' => 'Chaussures',
+                        'Accessoires' => 'Accessoires',
+                    ],
+                    'Loisirs' => [
+                        'DVD/Films' => 'DVD/Films',
+                        'CD/Musique' => 'CD/Musique',
+                        'Livres' => 'Livres',
+                        'Animaux' => 'Animaux',
+                        'Jeux & Jouets' => 'Jeux & Jouets',
+                    ],
+                    'Divers' => [
+                        'Autres' => 'Autres'
+                    ],
+                ],'required' => false,
                 'label' => false,
-                attr => [
-                    'placeholder' => 'Surface minimale'
+                'attr' => [
+                    'placeholder' => 'Catégorie'
                 ]
             ])
-            ->add('maxPrice', IntegerType::class, [
+            ->add('price', MoneyType::class, [
                 'required' => false,
                 'label' => false,
-                attr => [
+                'attr' => [
                     'placeholder' => 'Budget max'
                 ]
             ])
-
+            ->add('region', null, [
+                'required' => false,
+                'label' => false,
+                'attr' => [
+                    'placeholder' => 'Region'
+                ]
+            ])
         ;
+
+        $formModifier = function(FormInterface $form, AdvertSearch $search) {
+            if ($search->getCategory() == 'Voitures') {
+                $form
+                    ->add('car_brand', TextType::class, [
+                        'required' => false,
+                        'label' => false,
+                        'attr' => [
+                            'placeholder' => 'Marque'
+                        ]])
+                    ->add('car_date', null, [
+                        'required' => false,
+                        'label' => false,
+                        'attr' => [
+                            'placeholder' => 'Année min'
+                        ]])
+                    ->add('car_km', null, [
+                        'required' => false,
+                        'label' => false,
+                        'attr' => [
+                            'placeholder' => 'Kilométrage max'
+                        ]])
+                    ->add('car_fuel', ChoiceType::class, [
+                        'choices' => [
+                            '"Choisissez Carburant"' => null,
+                            'Essence' => 'Essence',
+                            'Diesel' => 'Diesel',
+                            'Hybride' => 'Hybride',
+                            'Electrique' => 'Electrique',
+                            'Autre' => 'Autre'
+                        ],'required' => false,
+                        'label' => false,])
+                ;
+            }
+            else if ($search->getCategory() == 'Ventes immobilières' || $search->getCategory() == 'Locations') {
+                $form
+                    ->add('immovable_type', ChoiceType::class, [
+                        'choices' => [
+                            '"Choisissez Type"' => null,
+                            'Maison' => 'Maison',
+                            'Appartement' => 'Appartement',
+                            'Terrain' => 'Terrain',
+                            'Parking' => 'Parking',
+                            'Autre' => 'Autre'
+                        ], 'required' => false,
+                        'label' => false,
+                        ])
+                    ->add('immovable_surface', IntegerType::class, [
+                        'required' => false,
+                        'label' => false,
+                        'attr' => [
+                            'placeholder' => 'Surface min'
+                        ]])
+                    ->add('immovable_room', IntegerType::class, [
+                        'required' => false,
+                        'label' => false,
+                        'attr' => [
+                            'placeholder' => 'Pièce min'
+                        ]])
+                    ->add('immovable_energy', ChoiceType::class, [
+                        'choices' => [
+                            '"Choisissez Classe Energie"' => null,
+                            'A' => 'A',
+                            'B' => 'B',
+                            'C' => 'C',
+                            'D' => 'D',
+                            'E' => 'E',
+                            'F' => 'F',
+                            'G' => 'G',
+                            'H' => 'H',
+                            'I' => 'I'
+                        ], 'required' => false,
+                        'label' => false,
+                        ])
+                ;
+
+            }
+            else if ($search->getCategory() == 'Vêtements') {
+                $form
+                    ->add('clothe_universe', ChoiceType::class, [
+                        'choices' => [
+                            '"Choisissez Univers"' => null,
+                            'Femme' => 'Femme',
+                            'Homme' => 'Homme',
+                            'Enfant' => 'Enfant'
+                        ], 'required' => false,
+                        'label' => false,
+                    ])
+                    ->add('clothe_type', TextType::class, [
+                        'required' => false,
+                        'label' => false,
+                        'attr' => [
+                            'placeholder' => 'Type de vêtement'
+                        ]])
+                    ->add('clothe_brand', TextType::class, [
+                        'required' => false,
+                        'label' => false,
+                        'attr' => [
+                            'placeholder' => 'Marque'
+                        ]])
+                    ->add('clothe_color', TextType::class, [
+                        'required' => false,
+                        'label' => false,
+                        'attr' => [
+                            'placeholder' => 'Couleur'
+                        ]])
+                    ->add('clothe_state', ChoiceType::class, [
+                        'choices' => [
+                            '"Choisissez Etat"' => null,
+                            'Etat satisfaisant' => 'Etat satisfaisant',
+                            'Bon état' => 'Bon état',
+                            'Très bon état' => 'Très bon état',
+                            'Neuf sans étiquette' => 'Neuf sans étiquette',
+                            'Neuf avec étiquette' => 'Neuf avec étiquette',
+                        ],
+                        'required' => false,
+                        'label' => false,
+                    ]);
+            }
+        };
+
+        $builder->addEventListener(
+            FormEvents::PRE_SET_DATA,
+            function (FormEvent $event) use ($formModifier)
+            {
+                $formModifier($event->getForm(), $event->getData());
+            }
+        );
     }
 
     public function configureOptions(OptionsResolver $resolver)
@@ -41,5 +222,10 @@ class AdvertSearchType extends AbstractType
             'method' => 'get',
             'csrf_protection' => false,
         ]);
+    }
+
+    public function getBlockPrefix()
+    {
+        return '';
     }
 }

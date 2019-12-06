@@ -47,4 +47,49 @@ class CarRepository extends ServiceEntityRepository
         ;
     }
     */
+
+    /**
+     * @param $adverts
+     * @param $search
+     * @return mixed
+     */
+    public function findAllBySearch($adverts, $search)
+    {
+        $query=$this->createQueryBuilder('c')
+            ->andWhere('c.car_advert IN (:adverts)')
+            ->setParameter('adverts',$adverts)
+        ;
+
+        if($search->getCarBrand()){
+            $query=$query
+                ->andWhere('c.car_brand = :brand')
+                ->setParameter('brand',$search->getCarBrand())
+            ;
+        }
+
+        if($search->getCarDate()){
+            $query=$query
+                ->andWhere('c.car_date >= :date')
+                ->setParameter('date',$search->getCarDate())
+            ;
+        }
+
+        if($search->getCarKm()){
+            $query=$query
+                ->andWhere('c.car_km <= :km')
+                ->setParameter('km',$search->getCarKm())
+            ;
+        }
+
+        if($search->getCarFuel()){
+            $query=$query
+                ->andWhere('c.car_fuel = :fuel')
+                ->setParameter('fuel',$search->getCarFuel())
+            ;
+        }
+
+        return$query->getQuery()
+            ->getResult()
+            ;
+    }
 }

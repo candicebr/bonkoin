@@ -4,6 +4,26 @@
 
 {% block body %}
     <h1>{{ title }}</h1>
+    <div class="jumbotron">
+        <div class="container">
+            {{ form_start(form) }}
+            <div class="form-row">
+                <div class=col">
+                    {{ form_row(form.category) }}
+                </div>
+                <div class=col">
+                    {{ form_row(form.price) }}
+                </div>
+                <div class=col">
+                    {{ form_row(form.region) }}
+                </div>
+                <div class=col">
+                    <button type="submit" class="btn btn-primary">Rechercher</button>
+                </div>
+            </div>
+            {{ form_end(form) }}
+        </div>
+    </div>
 
     {% if ( app.session.get('id') == null) %}
         <a href="/connection"><h4>Se connecter</h4></a>
@@ -26,3 +46,4 @@
     </li>
 
 {% endblock %}
+

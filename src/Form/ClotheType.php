@@ -27,11 +27,11 @@ class ClotheType extends AbstractType
             ->add('clothe_state', ChoiceType::class, [
                 'choices' => [
                     '"Choisissez"' => null,
-                    'Etat satisfaisant => Etat satisfaisant',
+                    'Etat satisfaisant' => 'Etat satisfaisant',
                     'Bon état' => 'Bon état',
                     'Très bon état' => 'Très bon état',
                     'Neuf sans étiquette' => 'Neuf sans étiquette',
-                    'Neuf avec étiquette' => 'Neuf avec étiquette',
+                    'Neuf avec étiquette' => 'Neuf avec étiquette'
                 ], 'label' => 'Etat'
             ])
         ;

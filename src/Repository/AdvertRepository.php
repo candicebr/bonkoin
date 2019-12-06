@@ -48,15 +48,86 @@ class AdvertRepository extends ServiceEntityRepository
     }
     */
 
+
     public function findAllNew()
     {
-        return$this->createQueryBuilder('a')
+        return $this->createQueryBuilder('a')
             ->orderBy('a.advert_date','DESC')
             ->getQuery()
             ->getResult()
         ;
     }
 
+    public function findAllNewByRequest($request)
+    {
+        $query = $this->createQueryBuilder('a');
+
+        if($request->get('price')) {
+            $query = $query
+                ->andWhere('a.advert_price <= :price')
+                ->setParameter('price', $request->get('price'))
+                ->orderBy('a.advert_date','DESC')
+            ;
+        }
+
+        if ($request->get('category')) {
+            $query = $query
+                ->andWhere('a.advert_category = :category')
+                ->setParameter('category', $request->get('category'))
+                ->orderBy('a.advert_date','DESC')
+            ;
+        }
+
+        if ($request->get('region')) {
+            $query = $query
+                ->andWhere('a.advert_region = :region')
+                ->setParameter('region', $request->get('region'))
+                ->orderBy('a.advert_date','DESC')
+            ;
+        }
+
+        return $query->getQuery()
+            ->getResult()
+        ;
+    }
+
+    public function findAllNewBySearch($search)
+    {
+    $query=$this->createQueryBuilder('a');
+
+    if($search->getPrice()){
+    $query=$query
+    ->andWhere('a.advert_price<=:price')
+    ->setParameter('price',$search->getPrice())
+    ->orderBy('a.advert_date','DESC')
+    ;
+    }
+
+    if($search->getCategory()){
+        $query=$query
+            ->andWhere('a.advert_category=:category')
+            ->setParameter('category',$search->getCategory())
+            ->orderBy('a.advert_date','DESC')
+        ;
+    }
+
+    if ($search->getRegion()) {
+        $query = $query
+            ->andWhere('a.advert_region = :region')
+            ->setParameter('region', $search->getRegion())
+            ->orderBy('a.advert_date','DESC')
+        ;
+    }
+
+    return$query->getQuery()
+        ->getResult()
+        ;
+    }
+
+    /**
+     * @param $id
+     * @return mixed
+     */
     public function findByUser($id)
     {
         return $this->createQueryBuilder('a')

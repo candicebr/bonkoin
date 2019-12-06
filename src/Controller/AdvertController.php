@@ -6,12 +6,16 @@ namespace App\Controller;
 use App\Entity\AdvertSearch;
 use App\Entity\Like;
 use App\Entity\User;
+use App\Entity\Car;
+use App\Entity\Clothe;
+use App\Entity\Immovable;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use App\Entity\Advert;
 use App\Form\AdvertType;
+use App\Form\AdvertSearchType;
 use Twig\Environment;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
@@ -30,33 +34,85 @@ class AdvertController extends AbstractController
     /**
      * @Route("/", name="adverts")
      */
-    public function actu(EntityManagerInterface $em)
+    public function actu(Request $request, EntityManagerInterface $em)
     {
-        $repository = $em->getRepository(Advert::class);
-        $adverts = $repository->findAllNew();
+        $search = new AdvertSearch();
+        $form = $this->createForm(AdvertSearchType::class, $search);
+        $form->handleRequest($request);
 
-        if (!$adverts) {
-            throw $this->createNotFoundException('Sorry, no advert');
+        if ($form->isSubmitted() && $form->isValid()) { // on véfifie si le formulaire est envoyé et si il est valide
+            $search = $form->getData();
+            $form = $this->createForm(AdvertSearchType::class, $search);
+            $form->handleRequest($request);
+
+            $repository = $em->getRepository(Advert::class);
+            $adverts = $repository->findAllNewBySearch($search);
+
+            $adverts_search = array();
+
+            if ($search->getCategory()) {
+                if ($search->getCategory() == "Voitures") {
+                    $repository = $em->getRepository(Car::class);
+                    $cars = $repository->findAllBySearch($adverts, $search);
+                    foreach ($cars as $car) {
+                        $adverts_search[] = $car->getCarAdvert();
+                    }
+                } else if ($search->getCategory() == "Vêtements") {
+                    $repository = $em->getRepository(Clothe::class);
+                    $clothes = $repository->findAllBySearch($adverts, $search);
+                    foreach ($clothes as $clothe) {
+                        $adverts_search[] = $clothe->getClotheAdvert();
+                    }
+                } else if ($search->getCategory() == "Ventes immobilières" || $search->getCategory() == "Locations") {
+                    $repository = $em->getRepository(Immovable::class);
+                    $immovables = $repository->findAllBySearch($adverts, $search);
+                    foreach ($immovables as $immovable) {
+                        $adverts_search[] = $immovable->getImmovableAdvert();
+                    }
+                }
+
+                return $this->render('adverts_actu.html.twig', [
+                    'title' => 'Adverts',
+                    'adverts' => $adverts_search,
+                    'form' => $form->createView()
+                ]);
+            }
+
+            return $this->render('adverts_actu.html.twig', [
+                'title' => 'Adverts',
+                'adverts' => $adverts,
+                'form' => $form->createView()
+            ]);
         }
+        //$adverts = $this->listAdvertsByCategory($request, $em);
+
+        $repository = $em->getRepository(Advert::class);
+        $adverts = $repository->findAllNewBySearch($search);
+
 
         return $this->render('adverts_actu.html.twig', [
             'title' => 'Adverts',
-            'adverts' => $adverts
+            'adverts' => $adverts,
+            'form' => $form->createView()
         ]);
     }
+
+    /*public function actu_search(Request $request, EntityManagerInterface $em, $search)
+    {
+        $form = $this->createForm(AdvertSearchType::class, $search);
+        $form->handleRequest($request);
+    }*/
 
     /**
      * @Route("/advert_form", name="advert_form")
      */
     public function advertForm(Request $request, EntityManagerInterface $em)
     {
-
         $user = $em->getRepository(User::class)->find($this->session->get('id'));
 
         $form = $this->createForm(AdvertType::class);
 
         $form->handleRequest($request); // On récupère le formulaire envoyé dans la requête
-        //if ($form->get('Categorie')->getData() == 'Voitures')
             if ($form->isSubmitted() && $form->isValid()) { // on véfifie si le formulaire est envoyé et si il est valide
                 $advert = $form->getData();
                 $advert->setAdvertDate();
@@ -124,7 +180,6 @@ class AdvertController extends AbstractController
 
             }
         return $this->render('advert_form.html.twig', ['form' => $form->createView()]); // on envoie ensuite le formulaire au template
-
     }
 
     /**
@@ -207,11 +262,16 @@ class AdvertController extends AbstractController
     }
 
     /**
-     * @Route("/api/adverts/{category}", name="advets_list_by_category")
+     * @Route("/api/adverts", name="api_recherche")
      */
-    public function listAdvertsByCategory(Request $request, EntityManagerInterface $em, $category)
+    public function listAdvertsByCategory(Request $request, EntityManagerInterface $em)
     {
-        $adverts = $em->getRepository(Advert::class)->findBy(['advert_category' => $category], ['advert_date' => 'DESC'] );
+        //$search = new AdvertSearch();
+
+        $repository = $em->getRepository(Advert::class);
+        $adverts = $repository->findAllNewByRequest($request->query);
+
+        //$adverts = $em->getRepository(Advert::class)->findBy(['advert_category' => $request->query->get('category')], ['advert_date' => 'DESC'] );
         $data = array();
         foreach ($adverts as $key => $advert){
             $data[$key]['title'] = $advert->getAdvertTitle();
@@ -226,14 +286,4 @@ class AdvertController extends AbstractController
         return new JsonResponse($data);
     }
 
-    /**
-     * @Route("/recherche", name="recherche")
-     */
-    public function search(Request $request, EntityManagerInterface $em)
-    {
-        $search = new AdvertSearch();
-        $form = $this->createForm(AdvertSearchType::class, $search);
-        $form->handleRequest($request);
-
-    }
 }

@@ -19,6 +19,7 @@ class CarType extends AbstractType
             ->add('car_km', null, ['label' => 'Kilométrage'])
             ->add('car_fuel', ChoiceType::class, [
                 'choices' => [
+                    '"Choisissez"' => null,
                     'Essence' => 'Essence',
                     'Diesel' => 'Diesel',
                     'Hybride' => 'Hybride',
