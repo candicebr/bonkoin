@@ -5,11 +5,6 @@
 {% block body %}
     <h1>{{ title }}</h1>
 
-    {% if ( app.session.get('id') == null) %}
-        <a href="/connection"><h4>Se connecter</h4></a>
-        <a href="/inscription"><h4>Inscription</h4></a>
-    {% endif %}
-
     <li>
         {% for advert in adverts %}
              <a href="/advert/{{ advert.getId() }}"><h2>{{ advert.getAdvertTitle() }}</h2></a>
