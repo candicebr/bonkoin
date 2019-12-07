@@ -14,8 +14,8 @@ class ImmovableType extends AbstractType
     {
         $builder
             ->add('immovable_type', ChoiceType::class, [
+                'placeholder' => '"Choisissez"',
                 'choices' => [
-                    '"Choisissez"' => null,
                     'Maison' => 'Maison',
                     'Appartement' => 'Appartement',
                     'Terrain' => 'Terrain',
@@ -26,8 +26,8 @@ class ImmovableType extends AbstractType
             ->add('immovable_surface', null, ['label' => 'Surface', 'attr' => ['placeholder' => 'm2']])
             ->add('immovable_room', null, ['label' => 'Pièces'])
             ->add('immovable_energy', ChoiceType::class, [
+                'placeholder' => '"Choisissez"',
                 'choices' => [
-                    '"Choisissez"' => null,
                     'A' => 'A',
                     'B' => 'B',
                     'C' => 'C',

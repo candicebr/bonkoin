@@ -18,8 +18,8 @@ class AdvertType extends AbstractType
     {
         $builder
             ->add('advert_category', ChoiceType::class, [
+                'placeholder' => '"Choisissez"',
                 'choices' => [
-                    '"Choisissez"' => null,
                     'Emploi' => [
                         "Offres d'emplois" => "Offres d'emplois",
                         'Formations professionnelles' => 'Formations professionnelles',

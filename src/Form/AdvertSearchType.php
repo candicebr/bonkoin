@@ -22,8 +22,8 @@ class AdvertSearchType extends AbstractType
     {
         $builder
             ->add('category', ChoiceType::class, [
+                'placeholder' => '"Choisissez Catégorie"',
                 'choices' => [
-                    '"Choisissez Catégorie"' => null,
                     'Emploi' => [
                         "Offres d'emplois" => "Offres d'emplois",
                         'Formations professionnelles' => 'Formations professionnelles',
@@ -108,8 +108,8 @@ class AdvertSearchType extends AbstractType
                             'placeholder' => 'Kilométrage max'
                         ]])
                     ->add('car_fuel', ChoiceType::class, [
+                        'placeholder' => '"Choisissez Carburant"',
                         'choices' => [
-                            '"Choisissez Carburant"' => null,
                             'Essence' => 'Essence',
                             'Diesel' => 'Diesel',
                             'Hybride' => 'Hybride',
@@ -122,8 +122,8 @@ class AdvertSearchType extends AbstractType
             else if ($search->getCategory() == 'Ventes immobilières' || $search->getCategory() == 'Locations') {
                 $form
                     ->add('immovable_type', ChoiceType::class, [
+                        'placeholder' => '"Choisissez Type"',
                         'choices' => [
-                            '"Choisissez Type"' => null,
                             'Maison' => 'Maison',
                             'Appartement' => 'Appartement',
                             'Terrain' => 'Terrain',
@@ -145,8 +145,8 @@ class AdvertSearchType extends AbstractType
                             'placeholder' => 'Pièce min'
                         ]])
                     ->add('immovable_energy', ChoiceType::class, [
+                        'placeholder' => '"Choisissez Classe Energie"',
                         'choices' => [
-                            '"Choisissez Classe Energie"' => null,
                             'A' => 'A',
                             'B' => 'B',
                             'C' => 'C',
@@ -165,8 +165,8 @@ class AdvertSearchType extends AbstractType
             else if ($search->getCategory() == 'Vêtements') {
                 $form
                     ->add('clothe_universe', ChoiceType::class, [
+                        'placeholder' => '"Choisissez Univers"',
                         'choices' => [
-                            '"Choisissez Univers"' => null,
                             'Femme' => 'Femme',
                             'Homme' => 'Homme',
                             'Enfant' => 'Enfant'
@@ -192,8 +192,8 @@ class AdvertSearchType extends AbstractType
                             'placeholder' => 'Couleur'
                         ]])
                     ->add('clothe_state', ChoiceType::class, [
+                        'placeholder' => '"Choisissez Etat"',
                         'choices' => [
-                            '"Choisissez Etat"' => null,
                             'Etat satisfaisant' => 'Etat satisfaisant',
                             'Bon état' => 'Bon état',
                             'Très bon état' => 'Très bon état',

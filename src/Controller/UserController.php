@@ -25,7 +25,7 @@ class UserController extends AbstractController
 
     Public function __construct(SessionInterface $session)
     {
-        $this->session = $session;
+        $this->session = $session; //on met en place la session de l'utilisateur
     }
 
     /**
@@ -40,11 +40,8 @@ class UserController extends AbstractController
             $user = $form->getData(); // On récupère l'article associé
             $user->setDateInscription();
 
-            if ($em->getRepository(User::class)->findOneByPseudo($user->getPseudo()) == null) // condition le pseudo n'existe pas déjà
+            if ($em->getRepository(User::class)->findOneBy(['pseudo' => $user->getPseudo()]) == null) // condition le pseudo n'existe pas déjà
             {
-                //$passwordEncoded = $encoder->encodePassword($user, $user->getPassword());
-                //$user->setPassword($passwordEncoded);
-
                 $em->persist($user); // on le persiste
                 $em->flush(); // on save
 
@@ -73,20 +70,19 @@ class UserController extends AbstractController
         if($form->isSubmitted() && $form->isValid())
         {
             $user_info = $form->getData();
-            $user = $em->getRepository(User::class)->findOneByEmail($user_info->getEmail());
+            $user = $em->getRepository(User::class)->findOneBy(['email' => $user_info->getEmail()]); // on recherche l'utilisateur avec son email
 
-            if($user)
+            if($user) // si l'utilisateur existe (si il s'est inscrit)
             {
-                if (password_verify($form->get('password')->getData(), $user->getPassword()))
+                if (password_verify($form->get('password')->getData(), $user->getPassword())) //si c'est le bon mot de passe
                 {
                     //initialisation de la session de l'utilisateur connecté
-
                     $this->session->set('id', $user->getId());
                     $this->session->set('pseudo', $user->getPseudo());
                     $this->session->set('email', $user->getEmail());
                     $this->session->set('dateInscription', $user->getDateInscription());
 
-                    return $this->redirectToRoute('actu_user');
+                    return $this->redirectToRoute('adverts');
                 }
                 else {
                     $this->addFlash('notice', 'mauvais mot de passe');
@@ -107,20 +103,22 @@ class UserController extends AbstractController
      */
     public function deconnexion()
     {
+        //on met la session à null
         $this->session->set('id', null);
         $this->session->set('pseudo', null);
         $this->session->set('email', null);
         $this->session->set('dateInscription', null);
 
-        return $this->redirectToRoute('adverts'); // Hop redirigé et on sort du controller
+        return $this->redirectToRoute('adverts'); // on sort du controller
     }
 
     /**
      * @Route("/user/update", name="update")
+     * Mise à jour des info de l'utilisateur
      */
     public function update(Request $request, EntityManagerInterface $em)
     {
-        $user = $em->getRepository(User::class)->find($this->session->get('id'));
+        $user = $em->getRepository(User::class)->find($this->session->get('id')); // on récupère l'utilisateur connecté
 
         $form = $this->createForm(UserUpdateType::class);
 
@@ -130,7 +128,7 @@ class UserController extends AbstractController
 
             if ($user_info->getPseudo() != null) //Si on modifie son pseudo
             {
-                if ($em->getRepository(User::class)->findOneByPseudo($user_info->getPseudo()) == null) // condition le pseudo n'existe pas déjà
+                if ($em->getRepository(User::class)->findOneBy(['pseudo' => $user_info->getPseudo()]) == null) // condition le pseudo n'existe pas déjà
                 {
                     $user->setPseudo($user_info->getPseudo());
                     $this->addFlash('notice', 'pseudo modifié');
@@ -141,7 +139,7 @@ class UserController extends AbstractController
                     return $this->render('update_profil.html.twig', ['form' => $form->createView()]);
                 }
             }
-            if ($user_info->getPassword() != null)
+            if ($user_info->getPassword() != null) // si on modifie son mot de passe
             {
                 $user->setPassword($form->get('password')->getData());
                 $this->addFlash('notice', 'mot de passe modifié');

@@ -14,8 +14,8 @@ class ClotheType extends AbstractType
     {
         $builder
             ->add('clothe_universe', ChoiceType::class, [
+                'placeholder' => '"Choisissez"',
                 'choices' => [
-                    '"Choisissez"' => null,
                     'Femme' => 'Femme',
                     'Homme' => 'Homme',
                     'Enfant' => 'Enfant'
@@ -25,8 +25,8 @@ class ClotheType extends AbstractType
             ->add('clothe_brand', null, ['label' => 'Marque'])
             ->add('clothe_color', null, ['label' => 'Couleur'])
             ->add('clothe_state', ChoiceType::class, [
+                'placeholder' => '"Choisissez"',
                 'choices' => [
-                    '"Choisissez"' => null,
                     'Etat satisfaisant' => 'Etat satisfaisant',
                     'Bon état' => 'Bon état',
                     'Très bon état' => 'Très bon état',

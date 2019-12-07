@@ -21,38 +21,39 @@ class LikeController extends AbstractController
 
     Public function __construct(SessionInterface $session)
     {
-        $this->session = $session;
+        $this->session = $session; //on met en place la session de l'utilisateur
     }
 
     /**
      * @Route("/like/{id}", name="like")
+     * Mettre une annonce dans ses favoris ou l'enlever
      */
     public function likeAdvert(EntityManagerInterface $em, $id) {
 
         $repository = $em->getRepository(Advert::class);
-        $advert = $repository->find($id);
+        $advert = $repository->find($id); // on récupère l'annonce en fonction de l'id
 
         $repository = $em->getRepository(User::class);
-        $user = $repository->findOneBy(['id' => $this->session->get('id')]);
+        $user = $repository->findOneBy(['id' => $this->session->get('id')]); // on récupère l'utilisateur
 
         if(!$advert) {
             throw $this->createNotFoundException('Sorry, no advert');
         }
 
         $repository = $em->getRepository(Like::class);
-        $liked = $repository->findOneByIds($advert, $this->session->get('id'));
+        $liked = $repository->findOneByIds($advert, $this->session->get('id')); // on cherche si un like existe
 
-        if ($liked == null) {
+        if ($liked == null) { //si il n'existe pas en le créer
             $like = new Like();
-            $like->setLikeUser($user);
+            $like->setLikeUser($user); //on set l'utilisateur
             $em->persist($user);
-            $like->setLikeAdvert($advert);
+            $like->setLikeAdvert($advert); // on set l'annonce
             $em->persist($advert);
 
             $em->persist($like);
             $em->flush();
         }
-        else
+        else //si il existe, on le supprime
         {
             $em->remove($liked);
             $em->flush();

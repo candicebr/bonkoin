@@ -48,7 +48,9 @@ class AdvertRepository extends ServiceEntityRepository
     }
     */
 
-
+    /**
+     * @return mixed
+     */
     public function findAllNew()
     {
         return $this->createQueryBuilder('a')
@@ -58,6 +60,10 @@ class AdvertRepository extends ServiceEntityRepository
         ;
     }
 
+    /**
+     * @param $request
+     * @return mixed
+     */
     public function findAllNewByRequest($request)
     {
         $query = $this->createQueryBuilder('a');
@@ -91,39 +97,6 @@ class AdvertRepository extends ServiceEntityRepository
         ;
     }
 
-    public function findAllNewBySearch($search)
-    {
-    $query=$this->createQueryBuilder('a');
-
-    if($search->getPrice()){
-    $query=$query
-    ->andWhere('a.advert_price<=:price')
-    ->setParameter('price',$search->getPrice())
-    ->orderBy('a.advert_date','DESC')
-    ;
-    }
-
-    if($search->getCategory()){
-        $query=$query
-            ->andWhere('a.advert_category=:category')
-            ->setParameter('category',$search->getCategory())
-            ->orderBy('a.advert_date','DESC')
-        ;
-    }
-
-    if ($search->getRegion()) {
-        $query = $query
-            ->andWhere('a.advert_region = :region')
-            ->setParameter('region', $search->getRegion())
-            ->orderBy('a.advert_date','DESC')
-        ;
-    }
-
-    return$query->getQuery()
-        ->getResult()
-        ;
-    }
-
     /**
      * @param $id
      * @return mixed
@@ -133,17 +106,6 @@ class AdvertRepository extends ServiceEntityRepository
         return $this->createQueryBuilder('a')
             ->andWhere('a.advert_user = :val')
             ->setParameter('val', $id)
-            ->orderBy('a.advert_date','DESC')
-            ->getQuery()
-            ->getResult()
-            ;
-    }
-
-    public function findByCategory($value)
-    {
-        return $this->createQueryBuilder('a')
-            ->andWhere('a.advert_category = :val')
-            ->setParameter('val', $value)
             ->orderBy('a.advert_date','DESC')
             ->getQuery()
             ->getResult()
