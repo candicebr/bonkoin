@@ -4,9 +4,7 @@
     <bookmark url="file://$PROJECT_DIR$/src/Entity/AdvertSearch.php" line="27" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="89d7bb2c-1cec-43b8-8895-999b3628ca18" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.env" beforeDir="false" afterPath="$PROJECT_DIR$/.env" afterDir="false" />
-    </list>
+    <list default="true" id="89d7bb2c-1cec-43b8-8895-999b3628ca18" name="Default Changelist" comment="" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -413,18 +411,17 @@
       <workItem from="1575651667315" duration="12674000" />
       <workItem from="1575731227495" duration="15463000" />
       <workItem from="1575808440992" duration="9893000" />
-      <workItem from="1575818948119" duration="4043000" />
+      <workItem from="1575818948119" duration="4320000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="233747000" />
+    <option name="totallyTimeSpent" value="234024000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="762" y="0" width="779" height="830" extended-state="0" />
-    <editor active="true" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.23023579" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.23023579" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
@@ -437,7 +434,7 @@
       <window_info anchor="bottom" id="Docker" order="7" show_stripe_button="false" />
       <window_info anchor="bottom" id="Database Changes" order="8" />
       <window_info anchor="bottom" id="Version Control" order="9" />
-      <window_info anchor="bottom" id="Terminal" order="10" visible="true" weight="0.4" />
+      <window_info active="true" anchor="bottom" id="Terminal" order="10" visible="true" weight="0.4" />
       <window_info anchor="bottom" id="Event Log" order="11" side_tool="true" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
