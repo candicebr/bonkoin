@@ -1,0 +1,89 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Actu{% endblock %}
+
+{% block body %}
+    <h1>Api Utilisation</h1>
+    <h3>Api de recherche d'annonce:</h3>
+    <h5>Exemples</h5>
+    <table class="table">
+        <thead class="thead-light">
+            <tr>
+                <th scope="col">Recherche</th>
+                <th scope="col">Route</th>
+            </tr>
+        </thead>
+    <tbody>
+    <tr>
+        <td>Voiture avec un prix max de 5000</td>
+        <td>api/adverts?category=Voitures&price=5000 <a href="/api/adverts?category=Voitures&price=1000">Essayer</a></td>
+    </tr>
+        <tr>
+            <td>Voiture diesel avec un prix max de 5000, de la marque Peugeot, avec un kilométrage max de 10000 et une année minimum de 2000 </td>
+            <td>api/adverts?category=Voitures&price=5000&car_brand=peugeot&car_date=2000&car_km=10000&car_fuel=Diesel <a href="/api/adverts?category=Voitures&price=5000&car_brand=peugeot&car_date=2000&car_km=10000&car_fuel=Diesel">Essayer</a></td>
+        </tr>
+    </tbody>
+    </table>
+    <h5>Critères par catégorie</h5>
+    <table class="table table-bordered">
+        <thead class="thead-light">
+        <tr>
+            <th scope="col">Voitures</th>
+            <th scope="col">Motos</th>
+            <th scope="col">Ventes immobilères ou Locations</th>
+            <th scope="col">Vêtements ou Chaussures</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td>car_brand</td>
+            <td>car_brand</td>
+            <td>immovable_type</td>
+            <td>clothe_type</td>
+        </tr>
+        <tr>
+            <td>car_date</td>
+            <td>car_date</td>
+            <td>immovable_surface</td>
+            <td>clothe_color</td>
+        </tr>
+        <tr>
+            <td>car_km</td>
+            <td>car_km</td>
+            <td>immovable_room</td>
+            <td>clothe_brand</td>
+        </tr>
+        <tr>
+            <td>car_fuel</td>
+            <td></td>
+            <td>immovable_energy</td>
+            <td>clothe_state</td>
+        </tr>
+        <tr>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td>clothe_universe</td>
+        </tr>
+        </tbody>
+    </table>
+
+    <h3>Api de détails d'annonce:</h3>
+    <h5>Exemples</h5>
+    <table class="table">
+        <thead class="thead-light">
+        <tr>
+            <th scope="col">Recherche</th>
+            <th scope="col">Route</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td>Détail de l'annonce 5</td>
+            <td>api/adverts/5 <a href="/api/adverts/5">Essayer</a></td>
+        </tr>
+        </tbody>
+    </table>
+
+
+{% endblock %}

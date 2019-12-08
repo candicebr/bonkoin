@@ -23,47 +23,27 @@ class AdvertSearchType extends AbstractType
         $builder
             ->add('category', ChoiceType::class, [
                 'placeholder' => '"Choisissez Catégorie"',
-                'choices' => [
-                    'Emploi' => [
-                        "Offres d'emplois" => "Offres d'emplois",
-                        'Formations professionnelles' => 'Formations professionnelles',
-                    ],
-                    'Véhicules' => [
-                        'Voitures' => 'Voitures',
-                        'Motos' => 'Motos',
-                    ],
-                    'Immobilier' => [
-                        'Ventes immobilières' => 'Ventes immobilières',
-                        'Locations' => 'Locations',
-                    ],
-                    'Multimédia' => [
-                        'Informatique' => 'Informatique',
-                        'Consoles et Jeux vidéo' => 'Consoles et Jeux vidéo',
-                        'Image & Son' => 'Image & Son',
-                        'Téléphonie' => 'Téléphonie',
-                    ],
-                    'maison' => [
-                        'Ameublement' => 'Ameublement',
-                        'Electroménager' => 'Electroménager',
-                        'Décoration' => 'Décoration',
-                        'Bricolage &' => 'Bricolage',
-                        'Jardinage' => 'Jardinage',
-                    ],
-                    'Mode' => [
-                        'Vêtements' => 'Vêtements',
-                        'Chaussures' => 'Chaussures',
-                        'Accessoires' => 'Accessoires',
-                    ],
-                    'Loisirs' => [
-                        'DVD/Films' => 'DVD/Films',
-                        'CD/Musique' => 'CD/Musique',
-                        'Livres' => 'Livres',
-                        'Animaux' => 'Animaux',
-                        'Jeux & Jouets' => 'Jeux & Jouets',
-                    ],
-                    'Divers' => [
-                        'Autres' => 'Autres'
-                    ],
+                    'choices' => [
+                        'Véhicules' => [
+                            'Voitures' => 'Voitures',
+                            'Motos' => 'Motos',
+                        ],
+                        'Immobilier' => [
+                            'Ventes immobilières' => 'Ventes immobilières',
+                            'Locations' => 'Locations',
+                        ],
+                        'maison' => [
+                            'Ameublement' => 'Ameublement',
+                            'Electroménager' => 'Electroménager',
+                        ],
+                        'Mode' => [
+                            'Vêtements' => 'Vêtements',
+                            'Chaussures' => 'Chaussures',
+                            'Accessoires' => 'Accessoires',
+                        ],
+                        'Divers' => [
+                            'Autres' => 'Autres'
+                        ],
                 ],'required' => false,
                 'label' => false,
                 'attr' => [
@@ -119,6 +99,29 @@ class AdvertSearchType extends AbstractType
                         'label' => false,])
                 ;
             }
+            else if ($search->getCategory() == 'Motos')
+            {
+                $form
+                    ->add('car_brand', null, [
+                        'required' => false,
+                        'label' => false,
+                        'attr' => [
+                            'placeholder' => 'Marque'
+                        ]])
+                    ->add('car_date', null, [
+                        'required' => false,
+                        'label' => false,
+                        'attr' => [
+                            'placeholder' => 'Année min'
+                        ]])
+                    ->add('car_km', null, [
+                        'required' => false,
+                        'label' => false,
+                        'attr' => [
+                            'placeholder' => 'Kilométrage max'
+                        ]])
+                ;
+            }
             else if ($search->getCategory() == 'Ventes immobilières' || $search->getCategory() == 'Locations') {
                 $form
                     ->add('immovable_type', ChoiceType::class, [
@@ -162,7 +165,7 @@ class AdvertSearchType extends AbstractType
                 ;
 
             }
-            else if ($search->getCategory() == 'Vêtements') {
+            else if ($search->getCategory() == 'Vêtements' || $search->getCategory() == 'Chaussures') {
                 $form
                     ->add('clothe_universe', ChoiceType::class, [
                         'placeholder' => '"Choisissez Univers"',
@@ -177,7 +180,7 @@ class AdvertSearchType extends AbstractType
                         'required' => false,
                         'label' => false,
                         'attr' => [
-                            'placeholder' => 'Type de vêtement'
+                            'placeholder' => 'Type'
                         ]])
                     ->add('clothe_brand', TextType::class, [
                         'required' => false,

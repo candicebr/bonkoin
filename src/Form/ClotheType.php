@@ -21,7 +21,7 @@ class ClotheType extends AbstractType
                     'Enfant' => 'Enfant'
                 ], 'label' => 'Univers'
             ])
-            ->add('clothe_type', null, ['label' => 'Type de vêtements'])
+            ->add('clothe_type', null, ['label' => 'Type'])
             ->add('clothe_brand', null, ['label' => 'Marque'])
             ->add('clothe_color', null, ['label' => 'Couleur'])
             ->add('clothe_state', ChoiceType::class, [

@@ -35,11 +35,6 @@ class Advert
     private $advert_description;
 
     /**
-     * @ORM\Column(type="text", nullable=true)
-     */
-    private $advert_photo;
-
-    /**
      * @ORM\Column(type="datetime")
      */
     private $advert_date;
@@ -127,18 +122,6 @@ class Advert
     public function setAdvertDescription(?string $advert_description): self
     {
         $this->advert_description = $advert_description;
-
-        return $this;
-    }
-
-    public function getAdvertPhoto(): ?string
-    {
-        return $this->advert_photo;
-    }
-
-    public function setAdvertPhoto(?string $advert_photo): self
-    {
-        $this->advert_photo = $advert_photo;
 
         return $this;
     }

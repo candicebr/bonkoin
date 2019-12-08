@@ -20,10 +20,6 @@ class AdvertType extends AbstractType
             ->add('advert_category', ChoiceType::class, [
                 'placeholder' => '"Choisissez"',
                 'choices' => [
-                    'Emploi' => [
-                        "Offres d'emplois" => "Offres d'emplois",
-                        'Formations professionnelles' => 'Formations professionnelles',
-                    ],
                     'Véhicules' => [
                         'Voitures' => 'Voitures',
                         'Motos' => 'Motos',
@@ -32,36 +28,14 @@ class AdvertType extends AbstractType
                         'Ventes immobilières' => 'Ventes immobilières',
                         'Locations' => 'Locations',
                     ],
-                    /*'Vacances' => [
-                        'Locations & Gîtes' => 'Locations & Gîtes',
-                        "Chambres d'hôtes" => "Chambre d'hôte",
-                        'Campings' => 'Campings',
-                        'Hôtels' => 'Hôtels',
-                    ],*/
-                    'Multimédia' => [
-                        'Informatique' => 'Informatique',
-                        'Consoles et Jeux vidéo' => 'Consoles et Jeux vidéo',
-                        'Image & Son' => 'Image & Son',
-                        'Téléphonie' => 'Téléphonie',
-                    ],
                     'maison' => [
                         'Ameublement' => 'Ameublement',
                         'Electroménager' => 'Electroménager',
-                        'Décoration' => 'Décoration',
-                        'Bricolage &' => 'Bricolage',
-                        'Jardinage' => 'Jardinage',
                     ],
                     'Mode' => [
                         'Vêtements' => 'Vêtements',
                         'Chaussures' => 'Chaussures',
                         'Accessoires' => 'Accessoires',
-                    ],
-                    'Loisirs' => [
-                        'DVD/Films' => 'DVD/Films',
-                        'CD/Musique' => 'CD/Musique',
-                        'Livres' => 'Livres',
-                        'Animaux' => 'Animaux',
-                        'Jeux & Jouets' => 'Jeux & Jouets',
                     ],
                     'Divers' => [
                         'Autres' => 'Autres'
@@ -71,7 +45,6 @@ class AdvertType extends AbstractType
             ->add('advert_title', null, ['label' => "Titre de l'annonce"])
             ->add('advert_description', null, ['label' => 'Description'])
             ->add('advert_price', null, ['label' => 'Prix'])
-            ->add('advert_photo', null, ['label' => 'Photos'])
             ->add('advert_region', null, ['label' => 'Région'])
             ->add('advert_localisation', null, ['label' => 'Adresse'])
         ;
@@ -79,13 +52,16 @@ class AdvertType extends AbstractType
         $formModifier = function(FormInterface $form, Advert $advert = null) {
             if($advert) {
                 if ($advert->getAdvertCategory() == 'Voitures') {
-                    $form->add('Car', CarType::class);
+                    $form->add('Car', CarType::class, ['label' => "Plus d'information"]);
+                }
+                else if ($advert->getAdvertCategory() == 'Motos') {
+                    $form->add('Car', MotoType::class, ['label' => "Plus d'information"]);
                 }
                 else if ($advert->getAdvertCategory() == 'Ventes immobilières' || $advert->getAdvertCategory() == 'Locations') {
-                    $form->add('Immovable', ImmovableType::class);
+                    $form->add('Immovable', ImmovableType::class, ['label' => "Plus d'information"]);
                 }
-                else if ($advert->getAdvertCategory() == 'Vêtements') {
-                    $form->add('Clothe', ClotheType::class);
+                else if ($advert->getAdvertCategory() == 'Vêtements' || $advert->getAdvertCategory() == 'Chaussures') {
+                    $form->add('Clothe', ClotheType::class, ['label' => "Plus d'information"]);
                 }
             }
         };
@@ -97,16 +73,6 @@ class AdvertType extends AbstractType
                 $formModifier($event->getForm(), $event->getData());
             }
         );
-/*
-        $builder->get('advert_category')->addEventListener(
-            FormEvents::POST_SUBMIT,
-            function (FormEvent $event) use ($formModifier)
-            {
-                $formModifier($event->getForm()->getParent(), $event->getForm()->getData());
-
-            }
-        );*/
-
     }
 
     public function configureOptions(OptionsResolver $resolver)

@@ -32,7 +32,7 @@ class Car
     private $car_km;
 
     /**
-     * @ORM\Column(type="string", length=20)
+     * @ORM\Column(type="string", length=20, nullable=true)
      */
     private $car_fuel;
 

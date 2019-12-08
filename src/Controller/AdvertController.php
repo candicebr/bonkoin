@@ -54,16 +54,16 @@ class AdvertController extends AbstractController
 
             //condition sur les catégories pour détailler les filtres en fonction
             if ($search->getCategory()) {
-                if ($search->getCategory() == "Voitures") {
+                if ($search->getCategory() == "Voitures" || $search->getCategory() == "Motos") {
                     $repository = $em->getRepository(Car::class);
                     $cars = $repository->findAllBySearch($adverts, $search);
                     foreach ($cars as $car) { //pour toutes les voitures qui correspondent à la recherche, on récupère l'annonce reliée
                         $adverts_search[] = $car->getCarAdvert();
                     }
-                } else if ($search->getCategory() == "Vêtements") {
+                } else if ($search->getCategory() == "Vêtements" || $search->getCategory() == "Chaussures") {
                     $repository = $em->getRepository(Clothe::class);
                     $clothes = $repository->findAllBySearch($adverts, $search);
-                    foreach ($clothes as $clothe) { //pour tous les vêtements qui correspondent à la recherche, on récupère l'annonce reliée
+                    foreach ($clothes as $clothe) { //pour tous les vêtements ou chaussures qui correspondent à la recherche, on récupère l'annonce reliée
                         $adverts_search[] = $clothe->getClotheAdvert();
                     }
                 } else if ($search->getCategory() == "Ventes immobilières" || $search->getCategory() == "Locations") {
@@ -261,6 +261,15 @@ class AdvertController extends AbstractController
     }
 
     /**
+     * @Route("/api", name="api")
+     * Explication api
+     */
+    public function api()
+    {
+        return $this->render('api.html.twig');
+    }
+
+    /**
      * @Route("/api/adverts", name="api_recherche")
      * Exemple utilisation api : /api/adverts?category=Voitures&price=1000
      */
@@ -283,7 +292,7 @@ class AdvertController extends AbstractController
             );
 
             //En fonction de la catégorie, des informations sont ajoutées au tableau
-            if($adverts[$key]->getAdvertCategory() == "Voitures")
+            if($adverts[$key]->getAdvertCategory() == "Voitures" || $adverts[$key]->getAdvertCategory() == "Motos")
             {
                 $ad += array(
                     'car_brand' => $adverts[$key]->getCar()->getCarBrand(),
@@ -295,7 +304,7 @@ class AdvertController extends AbstractController
                     'immovable_type' => $adverts[$key]->getImmovable()->getImmovableType(),
                 );
             }
-            else if($adverts[$key]->getAdvertCategory() == "Vêtements")
+            else if($adverts[$key]->getAdvertCategory() == "Vêtements" || $advert->getAdvertCategory() == "Chaussures")
             {
                 $ad += array(
                     'clothe_type' => $adverts[$key]->getClothe()->getClotheType(),
@@ -339,6 +348,14 @@ class AdvertController extends AbstractController
                 'car_fuel' => $advert->getCar()->getCarFuel()
             );
         }
+        else if($advert->getAdvertCategory() == "Motos")
+        {
+            $json += array(
+                'car_brand' => $advert->getCar()->getCarBrand(),
+                'car_date' => $advert->getCar()->getCarDate(),
+                'car_km' => $advert->getCar()->getCarKm(),
+            );
+        }
         else if($advert->getAdvertCategory() == "Ventes immobilières" || $advert->getAdvertCategory() == "Locations")
         {
             $json += array(
@@ -348,7 +365,7 @@ class AdvertController extends AbstractController
                 'immovable_energy' => $advert->getImmovable()->getImmovableEnergy()
             );
         }
-        else if($advert->getAdvertCategory() == "Vêtements")
+        else if($advert->getAdvertCategory() == "Vêtements" || $advert->getAdvertCategory() == "Chaussures")
         {
             $json += array(
                 'clothe_type' => $advert->getClothe()->getClotheType(),
