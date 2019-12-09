@@ -14,6 +14,7 @@ Très simplement de la même manière !
 {% block title %}Homepage !{% endblock %}
 
 {% block body %}
+     <div class="inscription">
     <h1>{{ title }}</h1>
 
     {{ form_start(form) }}
@@ -26,10 +27,10 @@ Très simplement de la même manière !
             {{ message }}
         </div>
     {% endfor %}
-    <button type="submit" class="btn btn-primary">Se Connecter!</button>
+    <button type="submit" class="btn btn-lg btn-outline-secondary">Se Connecter!</button>
 
     {{ form_end(form) }}
-
+     </div>
 
 {% endblock %}
 

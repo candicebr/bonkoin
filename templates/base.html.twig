@@ -14,7 +14,7 @@
 </head>
 <body>
 <nav class="navbar navbar-expand-lg navbar-dark navbar-custom">
-    <a class="navbar-brand" href=" {{ path('adverts') }}">BonKoin <img src="../image/logo_lebonkoin.png"  class="logo" alt="logo"></a>
+    <a class="navbar-brand" href=" {{ path('adverts') }}">BonKoin <img src="../../image/logo_lebonkoin.png"  class="logo" alt="logo"></a>
 
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
@@ -42,7 +42,7 @@
             <li class="nav-item ">
                 {% if ( app.session.get('id') == null) %}
                 {% else %}
-                    <a class="nav-link" href="{{ path('user_favorites')}}">Mes favoris </a><img class="favoris" src="../image/favoris.png">
+                    <a class="nav-link" href="{{ path('user_favorites')}}">Mes favoris </a>
 
                 {% endif %}
             </li>

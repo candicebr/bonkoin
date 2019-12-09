@@ -6,10 +6,11 @@
     <div id="block_profil">
 
     <h1>{{ title }}</h1>
-    <a href="/user/update"><p>Modifier le profil</p></a>
-
+<br><br>
     <p>Email: {{ app.session.get('email') }}</p>
     <p>Pseudo: {{ app.session.get('pseudo') }}</p>
+        <a href="/user/update"><button type="button" class="btn btn-lg btn-outline-secondary">Modifier le Profil</button></a>
+
     </div>
 
 
