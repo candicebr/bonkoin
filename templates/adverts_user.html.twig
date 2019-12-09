@@ -3,7 +3,12 @@
 {% block title %}Actu{% endblock %}
 
 {% block body %}
-    <h1>{{ title }}</h1>
+    {% if ( app.session.get('id') == null) %}
+        <h1>{{ title }}</h1>
+    {% else %}
+        <h1>{{ title2 }}</h1>
+    {% endif %}
+
     <li>
         {% for advert in adverts %}
             <a href="/advert/{{ advert.getId() }}"><h2>{{ advert.getAdvertTitle() }}</h2></a>

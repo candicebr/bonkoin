@@ -56,7 +56,10 @@ class UserController extends AbstractController
             $this->addFlash('notice', 'pseudo déjà utilisé');
             return $this->render('inscription.html.twig', ['form' => $form->createView()]);
         }
-        return $this->render('inscription.html.twig', ['form' => $form->createView()]);
+        return $this->render('inscription.html.twig', [
+            'form' => $form->createView(),
+            'curent_menu' => 'properties',
+        ]);
     }
 
     /**
@@ -95,7 +98,11 @@ class UserController extends AbstractController
                 return $this->render('connection.html.twig', ['title' => 'Connection', 'form' => $form->createView()]);
             }
         }
-        return $this->render('connection.html.twig', ['title' => 'Connection', 'form' => $form->createView()]);
+        return $this->render('connection.html.twig', [
+            'title' => 'Connection',
+            'form' => $form->createView(),
+            'curent_menu' => 'properties',
+        ]);
     }
 
     /**

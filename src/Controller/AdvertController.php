@@ -49,7 +49,7 @@ class AdvertController extends AbstractController
 
             $repository = $em->getRepository(Advert::class);
             $adverts = $repository->findAllNewByRequest($request); //on récupère toutes les annonces qui correspondent à la recherche
-
+            dd($adverts);
             $adverts_search = array();
 
             //condition sur les catégories pour détailler les filtres en fonction
@@ -77,6 +77,7 @@ class AdvertController extends AbstractController
                 //affichage des annonces qui correspondent à la recherche
                 return $this->render('adverts_actu.html.twig', [
                     'title' => 'Adverts',
+                    'curent_menu' => 'adverts',
                     'adverts' => $adverts_search,
                     'form' => $form->createView()
                 ]);
@@ -222,7 +223,8 @@ class AdvertController extends AbstractController
         $adverts = $em->getRepository(Advert::class)->findByUser($id); //on récupère les annonces en fonction de l'id
 
         return $this->render('adverts_user.html.twig', [
-            'title' => 'AdvertFromUser',
+            'title' => "Les annonces de l'utilisateur",
+            'title2'=> 'Mes Actus',
             'adverts' => $adverts
         ]);
     }
