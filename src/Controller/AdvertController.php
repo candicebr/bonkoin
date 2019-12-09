@@ -257,6 +257,7 @@ class AdvertController extends AbstractController
 
         return $this->render('adverts_user.html.twig', [
             'title' => 'Favorite',
+            'title2' => 'Actus',
             'adverts' => $adverts,
         ]);
     }
