@@ -49,7 +49,6 @@ class AdvertController extends AbstractController
 
             $repository = $em->getRepository(Advert::class);
             $adverts = $repository->findAllNewByRequest($request); //on récupère toutes les annonces qui correspondent à la recherche
-            dd($adverts);
             $adverts_search = array();
 
             //condition sur les catégories pour détailler les filtres en fonction
