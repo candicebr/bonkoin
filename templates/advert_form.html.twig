@@ -4,16 +4,45 @@
 
 {% block body %}
 
-    <h1>Formulaire</h1>
-    {{ form_start(form) }}
-    {{ form_widget(form) }}
-    <button type="submit" class="btn btn-primary">Valider</button>
-    {{ form_end(form) }}
+    <div class="annonce_formulaire">
+        <div class="jumbotron">
+            <div class="container">
+                <div class="card-header">
+                    <h1>Votre Annonce</h1>
+                </div>
+                <div class="card-body">
+                    {{ form_start(form) }}
+                    <div class="form-row">
+                        <div class="col">
+                            {{ form_row(form.advert_category) }}
+                        </div>
+                        <div class="col">
+                            {{ form_row(form.advert_price) }}
+                        </div>
+                    </div>
+                    {{ form_row(form.advert_title) }}
+                    {{ form_row(form.advert_description) }}
+                    <div class="form-row">
+                        <div class="col">
+                            {{ form_row(form.advert_region) }}
+                        </div>
+                        <div class="col">
+                            {{ form_row(form.advert_localisation) }}
+                        </div>
+                    </div>
+                    {{ form_widget(form) }}
 
-    {% for message in app.flashes('notice') %}
-        <div class="flash-notice">
-            {{ message }}
+                    <button type="submit" class="btn btn-primary">Valider</button>
+                    {{ form_end(form) }}
+
+                    {% for message in app.flashes('notice') %}
+                        <div class="flash-notice">
+                            {{ message }}
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
         </div>
-    {% endfor %}
+    </div>
 
 {% endblock %}

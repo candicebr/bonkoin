@@ -4,19 +4,29 @@
 
 {% block body %}
     {% if ( app.session.get('id') == null) %}
-        <h1>{{ title }}</h1>
+        <h1 class="favoris">{{ title }}</h1>
     {% else %}
         <h1>{{ title2 }}</h1>
     {% endif %}
 
-    <li>
+    <div class="row mb-2">
         {% for advert in adverts %}
-            <a href="/advert/{{ advert.getId() }}"><h2>{{ advert.getAdvertTitle() }}</h2></a>
-            <h3>{{ advert.getAdvertPrice() }} €</h3>
-            <h4>{{ advert.getAdvertCategory() }}</h4>
-            <h4>{{ advert.getAdvertLocalisation() }}</h4>
-            <h5>{{ advert.getAdvertDate()|date }}</h5>
+            <div class="col-md-6">
+                <div class="row no-glutters border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative">
+                    <div class="col p-4 d-flex flex-column position-static">
+                        <div class="card-header">
+                            <a class="titre_annonce" href="/advert/{{ advert.getId() }}"><h2>{{ advert.getAdvertTitle() }}</h2></a>
+                        </div>
+                        <div class="card-body">
+                            <h3 class="price">{{ advert.getAdvertPrice() }} €</h3>
+                            <h5>{{ advert.getAdvertCategory() }}</h5>
+                            <h6>{{ advert.getAdvertLocalisation() }}</h6>
+                            <p>{{ advert.getAdvertDate()|date }}</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
         {% endfor %}
-    </li>
+    </div>
 
 {% endblock %}

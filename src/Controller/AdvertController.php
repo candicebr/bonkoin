@@ -207,10 +207,10 @@ class AdvertController extends AbstractController
             $em->remove($advert);
             $em->flush();
 
-            return $this->redirectToRoute('actu_user'); // Hop redirigé et on sort du controller
+            return $this->redirectToRoute('user_adverts', ['id' => $this->session->get('id')]); // Hop redirigé et on sort du controller
         }
         //sinon redirection
-        return $this->redirectToRoute('advert', ['id' => $id]);
+        return $this->redirectToRoute('user_adverts', ['id' => $this->session->get('id')]); // Hop redirigé et on sort du controller
     }
 
     /**
@@ -256,7 +256,7 @@ class AdvertController extends AbstractController
         }
 
         return $this->render('adverts_user.html.twig', [
-            'title' => 'Favorite',
+            'title' => 'Mes Favoris',
             'title2' => 'Actus',
             'adverts' => $adverts,
         ]);

@@ -13,50 +13,51 @@
 
 </head>
 <body>
+<header>
+    <nav class="navbar navbar-expand-lg navbar-dark navbar-custom">
+        <a class="navbar-brand" href="/">BonKoin <img src="../../image/logo_lebonkoin.png"  class="logo" alt="logo"></a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
 
-<nav class="navbar navbar-expand-lg navbar-light bg-light ">
-    <a class="navbar-brand" href="/">BonKoin</a>
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-    </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav mr-auto">
 
-    <div class="collapse navbar-collapse" id="navbarSupportedContent">
-        <ul class="navbar-nav mr-auto">
+                <li class="nav-item ">
+                    {% if ( app.session.get('id') == null) %}
+                        <a class="nav-link" href="/connection">Se connecter</a>
+                    {% else %}
+                        <a class="nav-link" href="/advert_form">Déposer une annonce</a>
+                    {% endif %}
+                </li>
+                <li class="nav-item ">
+                    {% if ( app.session.get('id') == null) %}
+                        <a class="nav-link" href="/inscription">Inscription</a>
+                    {% else %}
+                        <a class="nav-link" href="/deconnexion">Se déconnecter</a>
+                    {% endif %}
+                </li>
 
-            <li class="nav-item ">
-                {% if ( app.session.get('id') == null) %}
-                    <a class="nav-link" href="/connection">Se connecter</a>
-                {% else %}
-                    <a class="nav-link" href="/advert_form">Déposer une annonce</a>
-                {% endif %}
-            </li>
-            <li class="nav-item ">
-                {% if ( app.session.get('id') == null) %}
-                    <a class="nav-link" href="/inscription">Inscription</a>
-                {% else %}
-                    <a class="nav-link" href="/deconnexion">Se déconnecter</a>
-                {% endif %}
-            </li>
+                <li class="nav-item ">
+                    {% if ( app.session.get('id') == null) %}
+                    {% else %}
+                        <a class="nav-link" href="/user/favorites">Mes favoris</a><img class="favoris" src="../image/favoris.png">
 
-            <li class="nav-item ">
-                {% if ( app.session.get('id') == null) %}
-                {% else %}
-                    <a class="nav-link" href="/user/favorites">Mes favoris</a>
-
-                {% endif %}
-            </li>
-
-
+                    {% endif %}
+                </li>
+            </ul>
+        </div>
+        <div class="nav navbar-nav navbar-right">
             <li class="nav-item">
                 {% if ( app.session.get('id') == null) %}
                 {% else %}
                     <a class="nav-link" href="/profil">Mon Compte</a>
                 {% endif %}
             </li>
-        </ul>
+        </div>
 
-    </div>
-</nav>
+    </nav>
+</header>
 {% block body %}{% endblock %}
 {% block javascripts %}
     <script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>

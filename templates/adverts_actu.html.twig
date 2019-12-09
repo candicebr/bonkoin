@@ -3,7 +3,14 @@
 {% block title %}Actu{% endblock %}
 
 {% block body %}
-    <h1>{{ title }}</h1>
+    <div class = "home text-center ">
+        {% if ( app.session.get('id') == null) %}
+            <h1>Bienvenue sur Le BonKoin</h1>
+        {% else %}
+            <h1>Recherche</h1>
+        {% endif %}
+    </div>
+
     <div class="jumbotron">
         <div class="container">
             {{ form_start(form) }}
@@ -25,25 +32,25 @@
         </div>
     </div>
 
-    <!--{% if ( app.session.get('id') == null) %}
-        <a href="/connection"><h4>Se connecter</h4></a>
-        <a href="/inscription"><h4>Inscription</h4></a>
-        {% else %}
-            <a href="/deconnexion"><h4>Se déconnecter</h4></a>
-            <a href="/advert_form"><h4>Déposer une annonce</h4></a>
-            <a href="/user/favorites"><h4>Mes favoris</h4></a>
-            <a href="/profil"><h4>Mon compte</h4></a>
-    {% endif %}-->
-
-    <li>
+    <div class="row mb-2">
         {% for advert in adverts %}
-             <a href="/advert/{{ advert.getId() }}"><h2>{{ advert.getAdvertTitle() }}</h2></a>
-             <h3>{{ advert.getAdvertPrice() }} €</h3>
-             <h4>{{ advert.getAdvertCategory() }}</h4>
-             <h4>{{ advert.getAdvertLocalisation() }}</h4>
-             <h5>{{ advert.getAdvertDate()|date }}</h5>
+        <div class="col-md-6">
+            <div class="row no-glutters border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative">
+                <div class="col p-4 d-flex flex-column position-static">
+                    <div class="card-header">
+                        <a class="titre_annonce" href="/advert/{{ advert.getId() }}"><h2>{{ advert.getAdvertTitle() }}</h2></a>
+                    </div>
+                    <div class="card-body">
+                        <h3 class="price">{{ advert.getAdvertPrice() }} €</h3>
+                        <h5>{{ advert.getAdvertCategory() }}</h5>
+                        <h6>{{ advert.getAdvertLocalisation() }}</h6>
+                        <p>{{ advert.getAdvertDate()|date }}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
         {% endfor %}
-    </li>
+    </div>
 
 {% endblock %}
 

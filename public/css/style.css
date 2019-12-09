@@ -3,6 +3,223 @@ body  {
 }
 
 h1{
+    color: #FFDC66;
+}
+
+
+/**************************CSS  de la NavBar*****************/
+/* change the background color */
+.navbar-custom {
+    background-color: #415161;
+}
+
+.logo{
+    width: 50px;
+    height: auto;
+}
+
+.navbar-brand{
+    color: #FFDC66;
+}
+
+.favoris{
+    width: 30px;
+    height: auto;
+}
+
+/*************HomePage*************************/
+.home{
+    background-color: #C3DCC4;
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+
+.home h1{
+    color:#415161;
+}
+
+/*************Annonce*************************/
+.like{
+    widht:70px;
+    height:70px;
+}
+
+.unlike{
+    widht:70px;
+    height:70px;
+}
+
+/**********************CSS Profil********************/
+#block_annonces{
+    text-align: justify;
+    float: right;
+    margin-right: 0px;
+    height:1000px;
+    background-color:#C3DCC4;
+    padding:280px;
+    padding-bottom: 05px;
+    padding-top: 05px;
+}
+
+#block_annonces h1{
+    padding-top: 10px;
+    color:#415161;
+
+}
+.annonce{
+    outline-color: #ffcd66;
+    outline-style: outset;
+    outline-width: 5px;
+    padding-left: 5px;
+
+}
+#block_profil {
+    text-align: justify;
+    float: left;
+    padding-bottom: 05px;
+    padding-top: 05px;
+    margin-left: 25px;
+    margin-right: 25px;
+}
+
+#block_profil .btn{
+    background-color: #ffcd66;
+    color: #415161;
+    border-radius:12px 0 12px 0;
+    font:bold 12px;
+    border:none;
+    box-shadow:1px 1px 3px #999;
+    padding-right: -20px;
+
+}
+
+#block_profil .btn:hover{
+    opacity: 80%;
+}
+
+#block_profil p{
+    font-size:20px
+}
+
+/*****************Les Actus*************/
+.annonce_formulaire{
+    margin-left: auto;
+    margin-right: auto;
+    width: 700px;
+    padding-top: 50px;
+}
+.annonce_formulaire h1{
+    text-align: center;
+    color: #415161;
+}
+
+.annonce_formulaire .btn{
+    background-color: #ffcd66;
+    color: #415161;
+    border-radius:12px 0 12px 0;
+    font:bold 12px;
+    border:none;
+    box-shadow:1px 1px 3px #999;
+}
+
+
+
+
+/*****************Mes Favoris*************/
+.favoris{
+
+}
+
+/*****************Inscriptions*************/
+.inscription{
+    margin-left: auto;
+    margin-right: auto;
+    width: 270px;
+    padding-top: 100px;
+}
+.inscription h1{
+    text-align: center;
+}
+
+.inscription .btn{
+    background-color: #ffcd66;
+    color: #415161;
+    border-radius:12px 0 12px 0;
+    font:bold 12px;
+    border:none;
+    box-shadow:1px 1px 3px #999;
+}
+
+
+/*****************Connexion*************/
+.connexion{
+    margin-left: auto;
+    margin-right: auto;
+    width: 270px;
+    padding-top: 100px;
+}
+.connexion h1{
+    text-align: center;
+}
+
+.connexion .btn{
+    background-color: #ffcd66;
+    color: #415161;
+    border-radius:12px 0 12px 0;
+    font:bold 12px;
+    border:none;
+    box-shadow:1px 1px 3px #999;
+}
+
+
+
+/*****annonce******/
+h1{
     text-decoration:none;
     color: black;
 }
+
+h3.price{
+    color: #FFCD66;
+}
+
+a.titre_annonce{
+    color: #415161;
+}
+
+a.titre_annonce:hover{
+    text-decoration: none;
+    color: #FFCD66;
+}
+
+div.critères{
+    width: 50%;
+}
+
+button.btn{
+    background-color: #415161;
+    border-color: #415161;
+    color: white;
+}
+
+button.btn:hover{
+    background-color: #C3DCC4;
+    border-color: #C3DCC4;
+}
+
+a.user{
+    color: #415161;
+}
+
+a.user:hover{
+    color: white;
+    text-decoration:none;
+}
+
+div.card{
+    width:30%;
+    background-color: #C3DCC4;
+}
+
+
+

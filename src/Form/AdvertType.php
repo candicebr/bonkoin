@@ -6,6 +6,7 @@ use App\Entity\Advert;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\MoneyType;
 use Symfony\Component\Form\FormEvents;
 use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -44,7 +45,7 @@ class AdvertType extends AbstractType
             ])
             ->add('advert_title', null, ['label' => "Titre de l'annonce"])
             ->add('advert_description', null, ['label' => 'Description'])
-            ->add('advert_price', null, ['label' => 'Prix'])
+            ->add('advert_price', MoneyType::class, ['label' => 'Prix'])
             ->add('advert_region', null, ['label' => 'Région'])
             ->add('advert_localisation', null, ['label' => 'Adresse'])
         ;
@@ -52,16 +53,16 @@ class AdvertType extends AbstractType
         $formModifier = function(FormInterface $form, Advert $advert = null) {
             if($advert) {
                 if ($advert->getAdvertCategory() == 'Voitures') {
-                    $form->add('Car', CarType::class, ['label' => "Plus d'information"]);
+                    $form->add('Car', CarType::class, ['label' => false]);
                 }
                 else if ($advert->getAdvertCategory() == 'Motos') {
-                    $form->add('Car', MotoType::class, ['label' => "Plus d'information"]);
+                    $form->add('Car', MotoType::class, ['label' => false]);
                 }
                 else if ($advert->getAdvertCategory() == 'Ventes immobilières' || $advert->getAdvertCategory() == 'Locations') {
-                    $form->add('Immovable', ImmovableType::class, ['label' => "Plus d'information"]);
+                    $form->add('Immovable', ImmovableType::class, ['label' => false]);
                 }
                 else if ($advert->getAdvertCategory() == 'Vêtements' || $advert->getAdvertCategory() == 'Chaussures') {
-                    $form->add('Clothe', ClotheType::class, ['label' => "Plus d'information"]);
+                    $form->add('Clothe', ClotheType::class, ['label' => false]);
                 }
             }
         };

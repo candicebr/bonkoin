@@ -1,36 +1,37 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Homepage !{% endblock %}
+{% block title %}Inscription{% endblock %}
 
 {% block body %}
-    <h1>Inscription</h1>
-    {{ form_start(form) }}
-    {{ form_widget(form.pseudo, {'attr': {'placeholder': 'pseudo'}}) }}
-    {{ form_widget(form.email, {'attr': {'placeholder': 'email'}}) }}
-    {{ form_widget(form.password, {'attr': {'placeholder': 'password'}}) }}
-    {{ form_widget(form) }}
+    <div class="inscription">
+        <h1>Inscription</h1>
+        {{ form_start(form) }}
+        {{ form_widget(form.pseudo, {'attr': {'placeholder': 'pseudo'}}) }}
+        {{ form_widget(form.email, {'attr': {'placeholder': 'email'}}) }}
+        {{ form_widget(form.password, {'attr': {'placeholder': 'password'}}) }}
+        {{ form_widget(form) }}
 
-    {% for message in app.flashes('notice') %}
-        <div class="flash-notice">
-            {{ message }}
-        </div>
-    {% endfor %}
-    <button type="submit" class="btn btn-primary">Create!</button>
+        {% for message in app.flashes('notice') %}
+            <div class="flash-notice">
+                {{ message }}
+            </div>
+        {% endfor %}
+        <button type="submit" class="btn btn-lg btn-outline-secondary">Create!</button>
 
-    {{ form_end(form) }}
+
+        {{ form_end(form) }}
+    </div>
 
 
 {% endblock %}
 
 {# templates/base.html.twig
-
  read and display just one flash message type
 {% for message in app.flashes('notice') %}
     <div class="flash-notice">
         {{ message }}
     </div>
 {% endfor %}
-
 read and display several types of flash messages
 {% for label, messages in app.flashes(['success', 'warning']) %}
     {% for message in messages %}
@@ -39,7 +40,6 @@ read and display several types of flash messages
         </div>
     {% endfor %}
 {% endfor %}
-
 read and display all flash messages
 {% for label, messages in app.flashes %}
     {% for message in messages %}
