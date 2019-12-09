@@ -39,7 +39,7 @@ class AdvertController extends AbstractController
         }
 
         return $this->render('adverts_actu.html.twig', [
-            'title' => 'Adverts',
+            'title' => 'Le BonKoin',
             'adverts' => $adverts
         ]);
     }
@@ -168,6 +168,7 @@ class AdvertController extends AbstractController
 
         return $this->render('profil.html.twig', [
             'title' => 'Profil',
+            'title2'=>'Mes Annonces',
             'adverts' => $adverts
         ]);
     }

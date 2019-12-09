@@ -6,3 +6,54 @@ h1{
     text-decoration:none;
     color: black;
 }
+
+/**************************CSS  de la NavBar*****************/
+/* change the background color */
+.navbar-custom {
+    background-color: #415161;
+}
+
+.logo{
+    width: 50px;
+    height: auto;
+}
+
+.navbar-brand{
+    color: #FFDC66;
+}
+
+.favoris{
+    width: 30px;
+    height: auto;
+}
+
+/**********************CSS Profil********************/
+#block_annonces{
+    text-align: justify;
+    float: right;
+    margin-right: 0px;
+    background-color:#C3DCC4;
+    padding: 300px;
+    padding-bottom: 05px;
+    padding-top: 05px;
+
+}
+.annonce{
+    outline-color: #ffcd66;
+   outline-style: outset;
+    outline-width: 5px;
+    padding-left: 5px;
+
+}
+#block_profil {
+    float: left;
+    margin-left: 50px;
+    font-size: 27px;
+
+
+}
+
+#block_profil a{
+    color: #ffcd66;
+}
+

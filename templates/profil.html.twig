@@ -3,13 +3,21 @@
 {% block title %}Homepage !{% endblock %}
 
 {% block body %}
-    <h1>{{ title }}</h1>
-    <a href="/user/update"><h4>Modifier le profil</h4></a>
+    <div id="block_profil">
 
-    <h3>Email: {{ app.session.get('email') }}</h3>
-    <h3>Pseudo: {{ app.session.get('pseudo') }}</h3>
+    <h1>{{ title }}</h1>
+    <a href="/user/update"><p>Modifier le profil</p></a>
+
+    <p>Email: {{ app.session.get('email') }}</p>
+    <p>Pseudo: {{ app.session.get('pseudo') }}</p>
+    </div>
+
+
+    <div id="block_annonces">
+    <h1>{{ title2 }}</h1>
     <li>
         {% for advert in adverts %}
+            <div class="annonce">
             <a href="/advert/update/{{ advert.getId() }}"><h4>Update</h4></a>
             <a href="/advert/delete/{{ advert.getId() }}"><h4>Delete</h4></a>
             <a href="/advert/{{ advert.getId() }}"><h2>{{ advert.getAdvertTitle() }}</h2></a>
@@ -17,7 +25,10 @@
             <h4>{{ advert.getAdvertCategory() }}</h4>
             <h4>{{ advert.getAdvertLocalisation() }}</h4>
             <h5>{{ advert.getAdvertDate()|date }}</h5>
+            </div>
         {% endfor %}
     </li>
+    </div>
+
 
 {% endblock %}

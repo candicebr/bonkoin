@@ -13,8 +13,9 @@
 
 </head>
 <body>
-<nav class="navbar navbar-expand-lg navbar-light bg-light ">
-    <a class="navbar-brand" href=" {{ path('adverts') }}">BonKoin</a>
+<nav class="navbar navbar-expand-lg navbar-dark navbar-custom">
+    <a class="navbar-brand" href=" {{ path('adverts') }}">BonKoin <img src="../image/logo_lebonkoin.png"  class="logo" alt="logo"></a>
+
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
     </button>
@@ -24,35 +25,37 @@
 
             <li class="nav-item ">
                 {% if ( app.session.get('id') == null) %}
-                    <a class="nav-link" href={{ path('connection') }}>Se connecter</>
+                    <a class="nav-link" href="{{ path('connection') }}">Se connecter</>
                 {% else %}
                     <a class="nav-link" href="/advert_form">Déposer une annonce</>
                 {% endif %}
             </li>
+
             <li class="nav-item ">
                 {% if ( app.session.get('id') == null) %}
-                    <a class="nav-link" href="{{ path('inscription') }}">Inscription</>
+                    <a class="nav-link" href="{{ path('inscription') }}">Inscription</a>
                 {% else %}
-                    <a class="nav-link" href="/deconnexion">Se déconnecter</>
+                    <a class="nav-link" href="/deconnexion">Se déconnecter</a>
                 {% endif %}
             </li>
 
             <li class="nav-item ">
                 {% if ( app.session.get('id') == null) %}
                 {% else %}
-                    <a class="nav-link" href="{{ path('user_favorites')}}">Mes favoris</>
+                    <a class="nav-link" href="{{ path('user_favorites')}}">Mes favoris </a><img class="favoris" src="../image/favoris.png">
 
                 {% endif %}
             </li>
-
-
+        </ul>
+    </div>
+            <div class="nav navbar-nav navbar-right">
             <li class="nav-item">
                 {% if ( app.session.get('id') == null) %}
                 {% else %}
                 <a class="nav-link" href="{{ path('profil') }}">Mon Compte</a>
                 {% endif %}
             </li>
-        </ul>
+
 
     </div>
 </nav>
