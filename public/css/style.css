@@ -6,11 +6,7 @@ h1{
     color: #FFDC66;
 }
 
-.btn{
 
-    background-color: #ffcd66;
-    color: #415161;
-}
 
 /**************************CSS  de la NavBar*****************/
 /* change the background color */
@@ -30,6 +26,28 @@ h1{
 .favoris{
     width: 30px;
     height: auto;
+}
+
+/*************HomePage*************************/
+.home{
+    background-color: #C3DCC4;
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+
+.home h1{
+    color:#415161;
+}
+
+/*************Annonce*************************/
+.like{
+    widht:70px;
+    height:70px;
+}
+
+.unlike{
+    widht:70px;
+    height:70px;
 }
 
 /**********************CSS Profil********************/

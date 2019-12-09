@@ -1,16 +1,19 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Homepage !{% endblock %}
+{% block title %}Annonce{% endblock %}
 
 {% block body %}
     <h1>{{ title }}</h1>
+    <br>
     {% if ( app.session.get('id')) %}
         {% if ( liked ) %}
-            <a href="/like/{{ advert.getId() }}"><h4>Unlike</h4></a>
+            <a href="/like/{{ advert.getId() }}"><img src="../../image/unlike.png"  class="unlike" alt="unlike"></a>
         {% else %}
-            <a href="/like/{{ advert.getId() }}"><h4>Like</h4></a>
+            <a href="/like/{{ advert.getId() }}"><img src="../../image/like.png"  class="like" alt="like"></a>
         {% endif %}
     {% endif %}
+    <br>
+    <br>
 
     <h2>{{ advert.getAdvertTitle() }}</h2>
     <h3>{{ advert.getAdvertPrice() }} €</h3>

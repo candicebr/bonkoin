@@ -3,8 +3,10 @@
 {% block title %}Homepage !{% endblock %}
 
 {% block body %}
+    <div class="annonce_formulaire">
 
     <h1>Formulaire</h1>
+        <br>
     {{ form_start(form) }}
     {{ form_widget(form) }}
     <button type="submit" class="btn btn-primary">Valider</button>
@@ -15,5 +17,6 @@
             {{ message }}
         </div>
     {% endfor %}
+    </div>
 
 {% endblock %}
