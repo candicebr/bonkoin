@@ -99,7 +99,7 @@ h1{
 
 }
 
-/*****************Les Actus*************/
+/*****************Les Actus Formulaire*************/
 .annonce_formulaire{
     margin-left: auto;
     margin-right: auto;
@@ -124,6 +124,7 @@ h1{
 
 /*****************Mes Favoris*************/
 .favoris{
+    text-align: center;
 
 }
 

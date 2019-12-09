@@ -1,22 +1,20 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Actu{% endblock %}
+{% block title %}Mes Favoris{% endblock %}
 
 {% block body %}
     <h1 class="favoris">{{ title }}</h1>
 
-    <div class="row mb-2">
         {% for advert in adverts %}
-            <div class="col-md-6">
-                <div class="row no-glutters border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative">
+            <div class="annonce_favorite">
             <a class=titre_annonce href="/advert/{{ advert.getId() }}"><h2>{{ advert.getAdvertTitle() }}</h2></a>
             <h3 class="prix">{{ advert.getAdvertPrice() }} €</h3>
             <h6>{{ advert.getAdvertCategory() }}</h6>
             <h6>{{ advert.getAdvertLocalisation() }}</h6>
             <p>{{ advert.getAdvertDate()|date }}</p>
-                </div>
             </div>
+
         {% endfor %}
-    </div>
+
 
 {% endblock %}

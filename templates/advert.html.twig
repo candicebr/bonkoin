@@ -7,9 +7,9 @@
     <br>
     {% if ( app.session.get('id')) %}
         {% if ( liked ) %}
-            <a href="/like/{{ advert.getId() }}"><img src="../../image/unlike.png"  class="unlike" alt="unlike"></a>
-        {% else %}
             <a href="/like/{{ advert.getId() }}"><img src="../../image/like.png"  class="like" alt="like"></a>
+        {% else %}
+            <a href="/like/{{ advert.getId() }}"><img src="../../image/unlike.png"  class="unlike" alt="unlike"></a>
         {% endif %}
     {% endif %}
     <br>
