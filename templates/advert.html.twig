@@ -9,7 +9,7 @@
             <div class="row no-glutters border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative">
                 <div class="col p-4 d-flex flex-column position-static">
                     <div class="card-header">
-                        <a class="titre_annonce" href="/advert/{{ advert.getId() }}"><h2>{{ advert.getAdvertTitle() }}</h2></a>
+                        <h1>{{ advert.getAdvertTitle() }}</h1>
                         <div class="coeur">
                             {% if ( app.session.get('id')) %}
                                 {% if ( liked ) %}
