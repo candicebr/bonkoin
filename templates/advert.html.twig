@@ -103,10 +103,11 @@
                     </div>
                     <div class=" card-footer infos">
                         <div class="localisation">
-                        <h5>Localisation</h5>
-                        <p>{{ advert.getAdvertLocalisation() }}</p>
-                        <p>{{ advert.getAdvertRegion() }}</p>
-                        </div><div class="card">
+                            <h5>Localisation</h5>
+                            <p>{{ advert.getAdvertLocalisation() }}</p>
+                            <p>{{ advert.getAdvertRegion() }}</p>
+                        </div>
+                        <div class="card infos_profil">
                             <div class="card-header">
                                 <a class="user" href="/user/adverts/{{ advert.getAdvertUser.getId()}}"><h5 class="card-title">{{ advert.getAdvertUser().getPseudo() }}</h5></a>
                             </div>
