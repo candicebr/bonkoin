@@ -99,7 +99,7 @@ class UserController extends AbstractController
             }
         }
         return $this->render('connection.html.twig', [
-            'title' => 'Connection',
+            'title' => 'Connexion',
             'form' => $form->createView(),
             'curent_menu' => 'properties',
         ]);

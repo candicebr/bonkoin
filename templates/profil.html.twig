@@ -1,17 +1,24 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Homepage !{% endblock %}
+{% block title %}Profil{% endblock %}
 
 {% block body %}
-    <h1>{{ title }}</h1>
 
-    <div id="block_profil">
-        <h3>Email: {{ app.session.get('email') }}</h3>
-        <h3>Pseudo: {{ app.session.get('pseudo') }}</h3>
-        <a href="/user/update"><button type="button" class="btn btn-lg btn-outline-secondary">Modifier le Profil</button></a>
-    </div>
-
+    <br>
     <div class="row mb-2">
+        <div class="col-md-6">
+            <div class="card2">
+                <div class="card-header">
+                    <h3>{{ app.session.get('pseudo') }}</h3>
+                </div>
+                <div id="block_profil">
+                    <div class="card-body">
+                        <h5>{{ app.session.get('email') }}</h5>
+                        <a href="/user/update"><button type="button" class="btn btn-lg btn-outline-secondary">Modifier le Profil</button></a>
+                    </div>
+                </div>
+            </div>
+        </div>
         {% for advert in adverts %}
             <div class="col-md-6">
                 <div class="row no-glutters border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative">

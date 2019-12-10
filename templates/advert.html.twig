@@ -1,104 +1,138 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Homepage !{% endblock %}
+{% block title %}Annonce{% endblock %}
 
 {% block body %}
-    <h1>{{ title }}</h1>
-    <br>
-    {% if ( app.session.get('id')) %}
-        {% if ( liked ) %}
-            <a href="/like/{{ advert.getId() }}"><img src="../../image/like.png"  class="like" alt="like"></a>
-        {% else %}
-            <a href="/like/{{ advert.getId() }}"><img src="../../image/unlike.png"  class="unlike" alt="unlike"></a>
-        {% endif %}
-    {% endif %}
-    <br>
-    <br>
 
-    <h2>{{ advert.getAdvertTitle() }}</h2>
-    <h3 class="price">{{ advert.getAdvertPrice() }} €</h3>
-    <h4>{{ advert.getAdvertCategory() }}</h4>
-    <h5>{{ advert.getAdvertDate()|date }}</h5>
-    <h5>Description</h5> <p>{{ advert.getAdvertDescription() }}</p>
-
-    <div class="critères">
-        <table class="table table-striped">
-            <tbody>
-                {% if ( advert.getAdvertCategory() == 'Motos') %}
-                    <tr>
-                        <th scope="row">Marque</th>
-                        <td>{{ advert.getCar().getCarBrand() }}</td>
-                    </tr>
-                    <tr>
-                        <th scope="row">Kilométrage</th>
-                        <td>{{ advert.getCar().getCarKm() }}</td>
-                    </tr>
-                    <tr>
-                        <th scope="row">Année du modèle</th>
-                        <td>{{ advert.getCar().getCarDate()}}</td>
-                    </tr>
-                    {% if ( advert.getAdvertCategory() == 'Voitures') %}
-                        <tr>
-                            <th scope="row">Essence</th>
-                            <td>{{ advert.getCar().getCarFuel() }}</td>
-                        </tr>
-                    {% endif %}
-                {% elseif (advert.getAdvertCategory() == 'Ventes immobilières' or advert.getAdvertCategory() == 'Locations') %}
-                    <tr>
-                        <th scope="row">Type</th>
-                        <td>{{ advert.getImmovable().getImmovableType() }}</td>
-                    </tr>
-                    <tr>
-                        <th scope="row">Surface</th>
-                        <td>{{ advert.getImmovable().getImmovableSurface() }}</td>
-                    </tr>
-                    <tr>
-                        <th scope="row">Pièces</th>
-                        <td>{{ advert.getImmovable().getImmovableRoom() }}</td>
-                    </tr>
-                    <tr>
-                        <th scope="row">Classe énergie</th>
-                        <td>{{ advert.getImmovable().getImmovableEnergy()}}</td>
-                    </tr>
-                {% elseif (advert.getAdvertCategory() == 'Vêtements' or advert.getAdvertCategory() == 'Chaussures') %}
-                    <tr>
-                        <th scope="row">Univers</th>
-                        <td>{{ advert.getClothe().getClotheUniverse() }}</td>
-                    </tr>
-                    <tr>
-                        <th scope="row">Type de vêtements</th>
-                        <td>{{ advert.getClothe().getClotheType() }}</td>
-                    </tr>
-                    <tr>
-                        <th scope="row">Marque</th>
-                        <td>{{ advert.getClothe().getClotheBrand() }}</td>
-                    </tr>
-                    <tr>
-                        <th scope="row">Couleur</th>
-                        <td>{{ advert.getClothe().getClotheColor() }}</td>
-                    </tr>
-                    <tr>
-                        <th scope="row">Etat</th>
-                        <td>{{ advert.getClothe().getClotheState()}}</td>
-                    </tr>
-                {%  endif %}
-            </tbody>
-        </table>
+    <div class="row mb-2">
+        <div class="col-md-6">
+            <div class="row no-glutters border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative">
+                <div class="col p-4 d-flex flex-column position-static">
+                    <div class="card-header">
+                        <a class="titre_annonce" href="/advert/{{ advert.getId() }}"><h2>{{ advert.getAdvertTitle() }}</h2></a>
+                        <div class="coeur">
+                            {% if ( app.session.get('id')) %}
+                                {% if ( liked ) %}
+                                    <a href="/like/{{ advert.getId() }}"><img src="../../image/like.png"  class="like" alt="like"></a>
+                                {% else %}
+                                    <a href="/like/{{ advert.getId() }}"><img src="../../image/unlike.png"  class="unlike" alt="unlike"></a>
+                                {% endif %}
+                            {% endif %}
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <h3 class="price">{{ advert.getAdvertPrice() }} €</h3>
+                        <h5>{{ advert.getAdvertCategory() }}</h5>
+                        <h6>{{ advert.getAdvertDate()|date }}</h6>
+                        <div class="card-header">
+                            <h4>Description</h4>
+                        </div>
+                        <p>{{ advert.getAdvertDescription() }}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="row no-glutters border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative">
+                <div class="col p-4 d-flex flex-column position-static">
+                    <div class="card-body criteres">
+                        <table class="table table-striped card-body">
+                            <tbody>
+                            {% if ( advert.getAdvertCategory() == 'Motos' or advert.getAdvertCategory() == 'Voitures') %}
+                                <tr>
+                                    <th scope="row">Marque</th>
+                                    <td>{{ advert.getCar().getCarBrand() }}</td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">Kilométrage</th>
+                                    <td>{{ advert.getCar().getCarKm() }}</td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">Année du modèle</th>
+                                    <td>{{ advert.getCar().getCarDate()}}</td>
+                                </tr>
+                                {% if ( advert.getAdvertCategory() == 'Voitures') %}
+                                    <tr>
+                                        <th scope="row">Essence</th>
+                                        <td>{{ advert.getCar().getCarFuel() }}</td>
+                                    </tr>
+                                {% endif %}
+                            {% elseif (advert.getAdvertCategory() == 'Ventes immobilières' or advert.getAdvertCategory() == 'Locations') %}
+                                <tr>
+                                    <th scope="row">Type</th>
+                                    <td>{{ advert.getImmovable().getImmovableType() }}</td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">Surface</th>
+                                    <td>{{ advert.getImmovable().getImmovableSurface() }}</td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">Pièces</th>
+                                    <td>{{ advert.getImmovable().getImmovableRoom() }}</td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">Classe énergie</th>
+                                    <td>{{ advert.getImmovable().getImmovableEnergy()}}</td>
+                                </tr>
+                            {% elseif (advert.getAdvertCategory() == 'Vêtements' or advert.getAdvertCategory() == 'Chaussures') %}
+                                <tr>
+                                    <th scope="row">Univers</th>
+                                    <td>{{ advert.getClothe().getClotheUniverse() }}</td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">Type de vêtements</th>
+                                    <td>{{ advert.getClothe().getClotheType() }}</td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">Marque</th>
+                                    <td>{{ advert.getClothe().getClotheBrand() }}</td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">Couleur</th>
+                                    <td>{{ advert.getClothe().getClotheColor() }}</td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">Etat</th>
+                                    <td>{{ advert.getClothe().getClotheState()}}</td>
+                                </tr>
+                            {%  endif %}
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class=" card-footer infos">
+                        <div class="row">
+                            <div class="col">
+                                <div class="localisation">
+                                    <div class="card-header">
+                                        <h4>Localisation</h4>
+                                    </div>
+                                    <p>{{ advert.getAdvertLocalisation() }}</p>
+                                    <p>{{ advert.getAdvertRegion() }}</p>
+                                </div>
+                            </div>
+                            <div class="col">
+                                <div class="card">
+                                    <div class="card-header">
+                                        {% if (advert.getAdvertUser.getId() == app.session.get('id')) %}
+                                            <h5 class="card-title">{{ advert.getAdvertUser().getPseudo() }}</h5>
+                                            {% else %}
+                                            <a class="user" href="/user/adverts/{{ advert.getAdvertUser.getId()}}"><h5 class="card-title">{{ advert.getAdvertUser().getPseudo() }}</h5></a>
+                                        {% endif %}
+                                    </div>
+                                    <div class="card-body">
+                                        <h6>{{ advert.getAdvertuser.getEmail() }}</h6>
+                                        <hp>Membre depuis : {{ advert.getAdvertUser().getDateInscription()|date("m/d/y") }}</hp>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 
-    <h5>Localisation</h5>
-    <p>{{ advert.getAdvertLocalisation() }}</p>
-    <p>{{ advert.getAdvertRegion() }}</p>
-
-    <div class="card">
-        <div class="card-header">
-            <a class="user" href="/user/adverts/{{ advert.getAdvertUser.getId()}}"><h5 class="card-title">{{ advert.getAdvertUser().getPseudo() }}</h5></a>
-        </div>
-        <div class="card-body">
-                <h6>{{ advert.getAdvertuser.getEmail() }}</h6>
-            <hp>Membre depuis : {{ advert.getAdvertUser().getDateInscription()|date("m/d/y") }}</hp>
-        </div>
-    </div>
 
     {% for message in app.flashes('notice') %}
         <div class="flash-notice">

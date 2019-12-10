@@ -93,8 +93,9 @@ h1{
 
 }
 
-#block_profil .btn:hover{
-    opacity: 80%;
+#block_profil .btn:hover {
+    background-color: #C3DCC4;
+    border-color: #C3DCC4;
 }
 
 #block_profil p{
@@ -134,8 +135,8 @@ h1{
 .inscription{
     margin-left: auto;
     margin-right: auto;
-    width: 270px;
-    padding-top: 100px;
+    width: 600px;
+    padding-top: 80px;
 }
 .inscription h1{
     text-align: center;
@@ -155,8 +156,8 @@ h1{
 .connexion{
     margin-left: auto;
     margin-right: auto;
-    width: 270px;
-    padding-top: 100px;
+    width: 600px;
+    padding-top: 80px;
 }
 .connexion h1{
     text-align: center;
@@ -171,12 +172,23 @@ h1{
     box-shadow:1px 1px 3px #999;
 }
 
+.connexion .div.form-row{
+    padding-top: 100px;
+    background-color: black;
+}
 
+.form-rows:focus{
+    outline: none ;
+}
 
 /*****annonce******/
 h1{
     text-decoration:none;
-    color: black;
+    color: #415161;
+}
+
+h1.titre{
+    color:#FFCD66;
 }
 
 h3.price{
@@ -217,8 +229,25 @@ a.user:hover{
 }
 
 div.card{
-    width:30%;
+    width:300px;
     background-color: #C3DCC4;
+}
+
+div.card2{
+    width:50%;
+    background-color: #C3DCC4;
+    margin-left: 80px;
+    margin-top: 50px;
+}
+
+
+div.coeur{
+    float: right;
+    margin-top: -50px;
+}
+
+div.coeur img{
+    filter:grayscale(1);
 }
 
 

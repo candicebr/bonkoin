@@ -16,9 +16,11 @@ class UserUpdateType extends AbstractType
         $builder
             ->add('pseudo', TextType::class, [
                 'required' => false,
+                'label' => false,
             ])
             ->add('password', PasswordType::class, [
                 'required' => false,
+                'label' => false,
             ])
         ;
     }

@@ -223,7 +223,6 @@ class AdvertController extends AbstractController
 
         return $this->render('adverts_user.html.twig', [
             'title' => "Les annonces de l'utilisateur",
-            'title2'=> 'Mes Actus',
             'adverts' => $adverts
         ]);
     }
@@ -257,7 +256,6 @@ class AdvertController extends AbstractController
 
         return $this->render('adverts_user.html.twig', [
             'title' => 'Mes Favoris',
-            'title2' => 'Actus',
             'adverts' => $adverts,
         ]);
     }

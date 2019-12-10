@@ -1,30 +1,32 @@
 {% extends 'base.html.twig' %}
-{# {% block title %}Welcome!{% endblock %}
-Alors qu'est ce que ça fait ?
-Ici est déclaré un bloc avec le nom title, celui ci va pouvoir être utilisé par les enfants pour venir override la valeur Welcome! à l'intérieur. Dans le cas où personne n'utilise ce bloc, la valeur définie est choisie par défaut.
-OK très bien, mais comment on l'utilise dans un template enfant ?
-Très simplement de la même manière !
-{% extends 'base.html.twig' %}
-{% block title} title from child ! {% endblock %} #}
-{% block title %}Homepage !{% endblock %}
+
+{% block title %}Connexion{% endblock %}
 
 {% block body %}
-    <div class="inscription">
-        <h1>{{ title }}</h1>
 
-        {{ form_start(form) }}
-        {{ form_widget(form.email, {'attr': {'placeholder': 'email'}}) }}
-        {{ form_widget(form.password, {'attr': {'placeholder': 'password'}}) }}
-        {{ form_widget(form) }}
+    <div class="connexion">
+        <div class="jumbotron">
+            <div class="container">
+                <div class="card-header">
+                    <h1>{{ title }}</h1>
+                </div>
+                <div class="card-body">
+                    {{ form_start(form) }}
+                    {{ form_row(form.email, {'attr': {'placeholder': 'email'}}) }}
+                    {{ form_row(form.password, {'attr': {'placeholder': 'password'}}) }}
 
-        {% for message in app.flashes('notice') %}
-            <div class="flash-notice">
-                {{ message }}
+                    {% for message in app.flashes('notice') %}
+                        <div class="flash-notice">
+                            {{ message }}
+                        </div>
+                    {% endfor %}
+
+                    <button type="submit" class="btn btn-lg btn-outline-secondary">Se Connecter!</button>
+                    {{ form_end(form) }}
+
+                </div>
             </div>
-        {% endfor %}
-        <button type="submit" class="btn btn-lg btn-outline-secondary">Se Connecter!</button>
-
-        {{ form_end(form) }}
+        </div>
     </div>
 
 {% endblock %}
