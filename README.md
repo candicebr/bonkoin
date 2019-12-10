@@ -35,4 +35,4 @@ Fonctionnalités réalisées :
       
 Bonus tenté : CSS.
 
-URL du site en ligne : www.tp.iut-lepuy.fr Lien vers le github : https://github.com/candicebr/bonkoin
+URL du site en ligne : https://bonkoin.herokuapp.com/ Lien vers le github : https://github.com/candicebr/bonkoin
