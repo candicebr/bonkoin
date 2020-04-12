@@ -54,7 +54,7 @@ class AdvertRepository extends ServiceEntityRepository
     public function findAllNew()
     {
         return $this->createQueryBuilder('a')
-            ->orderBy('a.advert_date','ASC')
+            ->orderBy('a.advert_date','DESC')
             ->getQuery()
             ->getResult()
         ;
@@ -72,7 +72,7 @@ class AdvertRepository extends ServiceEntityRepository
             $query = $query
                 ->andWhere('a.advert_price <= :price')
                 ->setParameter('price', $request->get('price'))
-                ->orderBy('a.advert_date','ASC')
+                ->orderBy('a.advert_date','DESC')
             ;
         }
 
@@ -80,7 +80,7 @@ class AdvertRepository extends ServiceEntityRepository
             $query = $query
                 ->andWhere('a.advert_category = :category')
                 ->setParameter('category', $request->get('category'))
-                ->orderBy('a.advert_date','ASC')
+                ->orderBy('a.advert_date','DESC')
             ;
         }
 
@@ -88,7 +88,7 @@ class AdvertRepository extends ServiceEntityRepository
             $query = $query
                 ->andWhere('a.advert_region = :region')
                 ->setParameter('region', $request->get('region'))
-                ->orderBy('a.advert_date','ASC')
+                ->orderBy('a.advert_date','DESC')
             ;
         }
 
@@ -106,7 +106,7 @@ class AdvertRepository extends ServiceEntityRepository
         return $this->createQueryBuilder('a')
             ->andWhere('a.advert_user = :val')
             ->setParameter('val', $id)
-            ->orderBy('a.advert_date','ASC')
+            ->orderBy('a.advert_date','DESC')
             ->getQuery()
             ->getResult()
             ;
