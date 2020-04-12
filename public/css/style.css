@@ -15,6 +15,7 @@ h1{
 
 .logo{
     width: 50px;
+    margin-right: 20px;
     height: auto;
 }
 
@@ -106,9 +107,16 @@ h1{
 .annonce_formulaire{
     margin-left: auto;
     margin-right: auto;
-    width: 700px;
+    width: auto;
     padding-top: 50px;
 }
+
+@media (min-width:1024px){
+    .annonce_formulaire{
+        width: 700px;
+    }
+}
+
 .annonce_formulaire h1{
     text-align: center;
     color: #415161;
@@ -135,8 +143,14 @@ h1{
 .inscription{
     margin-left: auto;
     margin-right: auto;
-    width: 80%;
+    width: auto;
     padding-top: 80px;
+}
+
+@media (min-width:1024px){
+    .inscription{
+        width: 600px;
+    }
 }
 
 
@@ -162,6 +176,13 @@ h1{
     width: 80%;
     padding-top: 80px;
 }
+
+@media (min-width:1024px){
+    .connexion{
+        width: 600px;
+    }
+}
+
 .connexion h1{
     text-align: center;
 }
