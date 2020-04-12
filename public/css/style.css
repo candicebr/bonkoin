@@ -135,9 +135,15 @@ h1{
 .inscription{
     margin-left: auto;
     margin-right: auto;
-    width: 600px;
+    width: fit-content;
     padding-top: 80px;
 }
+
+@media (min-width: @screen-lg-min) { 
+    .inscription{
+    width: 600px;
+}
+
 .inscription h1{
     text-align: center;
 }
